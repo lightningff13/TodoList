@@ -18,7 +18,7 @@ class UpdateTodoListTest : UseCaseTest() {
     }
 
     @Test
-    fun execute_should_call_todoListRepository_update_method() {
+    fun `should update todo list with repository`() {
         runBlocking {
             updateTodoList.execute(todoListWithTasks)
         }

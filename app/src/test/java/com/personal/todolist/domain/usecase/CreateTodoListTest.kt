@@ -18,7 +18,7 @@ class CreateTodoListTest : UseCaseTest(){
     }
 
     @Test
-    fun execute_should_call_todoListRepository_add_method() {
+    fun `should add todo list with repository`() {
         runBlocking {
             createTodoList.execute(todoListWithTasks)
         }

@@ -19,7 +19,7 @@ class GetTodoListsTest : UseCaseTest() {
     }
 
     @Test
-    fun execute_should_call_todoListRepository_get_method() {
+    fun `should get todo list from repository`() {
         runBlocking {
             getTodoLists.execute(UseCase.None())
         }

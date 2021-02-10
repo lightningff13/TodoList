@@ -18,7 +18,7 @@ class DeleteTodoListTest : UseCaseTest(){
     }
 
     @Test
-    fun execute_should_call_todoListRepository_delete_method() {
+    fun `should delete todo list with repository`() {
         val todoListId = todoListWithTasks.todoList.id
         runBlocking {
             deleteTodoList.execute(todoListId)
