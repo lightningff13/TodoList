@@ -1,6 +1,6 @@
 package com.personal.todolist.domain.usecase
 
-import com.personal.todolist.data.entities.TodoListWithTasks
+import com.personal.todolist.domain.models.TodoList
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -15,7 +15,7 @@ class GetTodoListsTest : UseCaseTest() {
     override fun setUp() {
         super.setUp()
         getTodoLists = GetTodoLists(todoListRepository)
-        coEvery { todoListRepository.getTodoLists() } returns listOf(TodoListWithTasks.empty)
+        coEvery { todoListRepository.getTodoLists() } returns listOf(TodoList.empty)
     }
 
     @Test

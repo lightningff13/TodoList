@@ -5,15 +5,10 @@ import androidx.room.Relation
 
 data class TodoListWithTasks(
         @Embedded
-        val todoList: TodoList,
+        val todoListEntity: TodoListEntity,
         @Relation(
                 parentColumn = "id",
                 entityColumn = "todoListId"
         )
-        val tasks: List<Task>
-
-){
-        companion object {
-                val empty = TodoListWithTasks(TodoList.empty, listOf(Task.empty))
-        }
-}
+        val taskEntities: List<TaskEntity>
+)

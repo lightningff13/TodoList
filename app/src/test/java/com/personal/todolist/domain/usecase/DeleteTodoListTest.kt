@@ -19,7 +19,7 @@ class DeleteTodoListTest : UseCaseTest(){
 
     @Test
     fun `should delete todo list with repository`() {
-        val todoListId = todoListWithTasks.todoList.id
+        val todoListId = todoList.id
         runBlocking {
             deleteTodoList.execute(todoListId)
         }

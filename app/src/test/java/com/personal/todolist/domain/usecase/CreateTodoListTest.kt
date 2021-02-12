@@ -20,9 +20,9 @@ class CreateTodoListTest : UseCaseTest(){
     @Test
     fun `should add todo list with repository`() {
         runBlocking {
-            createTodoList.execute(todoListWithTasks)
+            createTodoList.execute(todoList)
         }
-        coVerify(exactly = 1) { todoListRepository.addTodoList(todoListWithTasks) }
+        coVerify(exactly = 1) { todoListRepository.addTodoList(todoList) }
         confirmVerified(todoListRepository)
     }
 }

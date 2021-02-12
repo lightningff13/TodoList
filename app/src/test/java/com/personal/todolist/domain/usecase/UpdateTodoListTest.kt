@@ -20,9 +20,9 @@ class UpdateTodoListTest : UseCaseTest() {
     @Test
     fun `should update todo list with repository`() {
         runBlocking {
-            updateTodoList.execute(todoListWithTasks)
+            updateTodoList.execute(todoList)
         }
-        coVerify(exactly = 1) { todoListRepository.updateTodoList(todoListWithTasks) }
+        coVerify(exactly = 1) { todoListRepository.updateTodoList(todoList) }
         confirmVerified(todoListRepository)
     }
 }
