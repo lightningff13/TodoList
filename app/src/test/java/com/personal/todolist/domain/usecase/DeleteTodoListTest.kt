@@ -4,16 +4,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 
 class DeleteTodoListTest : UseCaseTest(){
-    private lateinit var deleteTodoList: DeleteTodoList
+    private val deleteTodoList = DeleteTodoList((todoListRepository))
 
-    @Before
-    override fun setUp() {
-        super.setUp()
-        deleteTodoList = DeleteTodoList(todoListRepository)
+    init {
         coEvery { todoListRepository.deleteTodoList(any()) } returns true
     }
 

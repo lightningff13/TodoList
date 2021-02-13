@@ -1,21 +1,17 @@
 package com.personal.todolist.domain.usecase
 
-import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.utils.createTodoList
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 
 class GetTodoListsTest : UseCaseTest() {
-    private lateinit var getTodoLists: GetTodoLists
+    private val getTodoLists = GetTodoLists(todoListRepository)
 
-    @Before
-    override fun setUp() {
-        super.setUp()
-        getTodoLists = GetTodoLists(todoListRepository)
-        coEvery { todoListRepository.getTodoLists() } returns listOf(TodoList.empty)
+    init {
+        coEvery { todoListRepository.getTodoLists() } returns listOf(createTodoList())
     }
 
     @Test

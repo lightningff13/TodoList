@@ -5,8 +5,4 @@ data class Task(
     val todoListId: Long,
     val description: String,
     val complete: Boolean
-){
-    companion object {
-        val empty = Task(0, 0L, "", false)
-    }
-}
+)

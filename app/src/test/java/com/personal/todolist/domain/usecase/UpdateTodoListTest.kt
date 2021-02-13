@@ -4,16 +4,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 
 class UpdateTodoListTest : UseCaseTest() {
-    private lateinit var updateTodoList: UpdateTodoList
+    private val updateTodoList = UpdateTodoList(todoListRepository)
 
-    @Before
-    override fun setUp() {
-        super.setUp()
-        updateTodoList = UpdateTodoList(todoListRepository)
+    init {
         coEvery { todoListRepository.updateTodoList(any()) } returns true
     }
 
