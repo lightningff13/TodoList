@@ -1,5 +1,6 @@
 package com.personal.todolist.domain.usecase
 
+import com.personal.todolist.utils.createTodoList
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -16,6 +17,7 @@ class CreateTodoListTest : UseCaseTest(){
 
     @Test
     fun `should add todo list with repository`() {
+        val todoList = createTodoList()
         runBlocking {
             createTodoList.execute(todoList)
         }

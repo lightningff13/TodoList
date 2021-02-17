@@ -15,7 +15,7 @@ class GetTodoListsTest : UseCaseTest() {
     }
 
     @Test
-    fun `should get todo list from repository`() {
+    fun `should get list of todo list from repository`() {
         runBlocking {
             getTodoLists.execute(UseCase.None())
         }

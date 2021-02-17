@@ -1,5 +1,9 @@
 package com.personal.todolist.utils
 
+import com.personal.todolist.data.entities.TaskEntity
+import com.personal.todolist.data.entities.TodoListEntity
+import com.personal.todolist.data.entities.TodoListWithTasks
+import com.personal.todolist.data.mappers.toEntity
 import com.personal.todolist.domain.models.Task
 import com.personal.todolist.domain.models.TodoList
 
@@ -14,13 +18,19 @@ fun createTodoList(
 )
 
 fun createTask(
-    id: Int = 1,
-    todoListId : Long = 1L,
+    id: Long = 1L,
     description: String = "Description of the task",
     complete: Boolean = false
 ) = Task(
     id = id,
-    todoListId = todoListId,
     description = description,
     complete = complete
+)
+
+fun createTodoListWithTasks(
+    todoListEntity: TodoListEntity = createTodoList().toEntity(),
+    taskEntities: List<TaskEntity> = listOf(createTask().toEntity(1L))
+) = TodoListWithTasks(
+    todoListEntity = todoListEntity,
+    taskEntities = taskEntities
 )

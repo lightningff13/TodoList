@@ -1,10 +1,12 @@
 package com.personal.todolist.domain.usecase
 
+import com.personal.todolist.utils.createTodoList
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+
 
 class DeleteTodoListTest : UseCaseTest(){
     private val deleteTodoList = DeleteTodoList((todoListRepository))
@@ -15,11 +17,11 @@ class DeleteTodoListTest : UseCaseTest(){
 
     @Test
     fun `should delete todo list with repository`() {
-        val todoListId = todoList.id
+        val todoList = createTodoList()
         runBlocking {
-            deleteTodoList.execute(todoListId)
+            deleteTodoList.execute(todoList)
         }
-        coVerify { todoListRepository.deleteTodoList(todoListId) }
+        coVerify(exactly = 1) { todoListRepository.deleteTodoList(todoList) }
         confirmVerified(todoListRepository)
     }
 }
