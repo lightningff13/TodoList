@@ -1,13 +1,12 @@
 package com.personal.todolist.data.mappers
 
 import com.google.common.truth.Truth.assertThat
+import com.personal.todolist.LifecycleTest
 import com.personal.todolist.utils.createTask
 import com.personal.todolist.utils.createTodoList
 import org.junit.Test
-import org.junit.jupiter.api.TestInstance
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DomainToEntityTest {
+class DomainToEntityTest : LifecycleTest(){
     private val todoList = createTodoList()
     private val task = createTask()
 
