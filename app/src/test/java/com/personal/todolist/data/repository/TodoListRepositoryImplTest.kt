@@ -7,11 +7,15 @@ import com.personal.todolist.utils.createTodoListWithTasks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class TodoListRepositoryTest : RepositoryTest(){
-    private val todoListRepository: TodoListRepository = TodoListRepositoryImpl(todoListDao)
+    private val testDispatcher = TestCoroutineDispatcher()
+    private val todoListRepository: TodoListRepository = TodoListRepositoryImpl(todoListDao, testDispatcher)
 
     init {
         coEvery { todoListDao.insert(any<TodoList>()) } returns true
