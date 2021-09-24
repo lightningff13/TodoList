@@ -1,5 +1,6 @@
 package com.personal.todolist.data.dao
 
+import android.database.sqlite.SQLiteException
 import androidx.room.*
 import com.personal.todolist.data.entities.TaskEntity
 import com.personal.todolist.data.entities.TodoListEntity
@@ -21,9 +22,11 @@ interface TodoListDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Throws(SQLiteException::class)
     suspend fun insert(todoListEntity: TodoListEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Throws(SQLiteException::class)
     suspend fun insert(taskEntity: TaskEntity): Long
 
     @Transaction
@@ -38,16 +41,20 @@ interface TodoListDao {
     }
 
     @Delete
+    @Throws(SQLiteException::class)
     suspend fun delete(todoListEntity: TodoListEntity): Int
 
     @Delete
+    @Throws(SQLiteException::class)
     suspend fun delete(taskEntity: TaskEntity): Int
 
     @Transaction
     @Query("SELECT * FROM todo_list")
+    @Throws(SQLiteException::class)
     suspend fun getAll(): List<TodoListWithTasks>
 
     @Transaction
     @Query("SELECT * FROM todo_list where id = :todoListId")
+    @Throws(SQLiteException::class)
     suspend fun getById(todoListId : Long): TodoListWithTasks
 }
