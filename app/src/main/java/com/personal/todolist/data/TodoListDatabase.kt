@@ -13,4 +13,8 @@ import com.personal.todolist.data.entities.TodoListEntity
 )
 abstract class TodoListDatabase : RoomDatabase() {
     abstract fun todoListDao(): TodoListDao
+
+    companion object {
+        const val DATABASE_NAME = "todolist_db"
+    }
 }
