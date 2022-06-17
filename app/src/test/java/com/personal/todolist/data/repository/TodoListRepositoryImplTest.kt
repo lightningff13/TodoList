@@ -8,15 +8,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class TodoListRepositoryTest : RepositoryTest(){
-    private val testDispatcher = UnconfinedTestDispatcher()
-    private val todoListRepository: TodoListRepository = TodoListRepositoryImpl(todoListDao, testDispatcher)
-
+class TodoListRepositoryTest : RepositoryTest() {
     init {
         coEvery { todoListDao.insert(any<TodoList>()) } returns true
         coEvery { todoListDao.delete(any<TodoList>()) } returns true
@@ -25,50 +22,70 @@ class TodoListRepositoryTest : RepositoryTest(){
     }
 
     @Test
-    fun `should add todo list with dao`() {
+    fun `should add todo list with dao`() = runTest {
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
+            todoListDao = todoListDao,
+            ioDispatcher = StandardTestDispatcher(testScheduler)
+        )
+
         val todoList = createTodoList()
-        runBlocking {
-            todoListRepository.addTodoList(todoList)
-        }
+
+        todoListRepository.addTodoList(todoList)
+
         coVerify(exactly = 1) { todoListDao.insert(todoList) }
         confirmVerified(todoListDao)
     }
 
     @Test
-    fun `should update todo list with dao`() {
+    fun `should update todo list with dao`() = runTest {
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
+            todoListDao = todoListDao,
+            ioDispatcher = StandardTestDispatcher(testScheduler)
+        )
+
         val todoList = createTodoList()
-        runBlocking {
-            todoListRepository.updateTodoList(todoList)
-        }
+        todoListRepository.updateTodoList(todoList)
+
         coVerify(exactly = 1) { todoListDao.insert(todoList) }
         confirmVerified(todoListDao)
     }
 
     @Test
-    fun `should delete todo list with dao`() {
+    fun `should delete todo list with dao`() = runTest {
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
+            todoListDao = todoListDao,
+            ioDispatcher = StandardTestDispatcher(testScheduler)
+        )
+
         val todoList = createTodoList()
-        runBlocking {
-            todoListRepository.deleteTodoList(todoList)
-        }
+        todoListRepository.deleteTodoList(todoList)
+
         coVerify(exactly = 1) { todoListDao.delete(todoList) }
         confirmVerified(todoListDao)
     }
 
     @Test
-    fun `should get todo list by id with dao`() {
+    fun `should get todo list by id with dao`() = runTest {
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
+            todoListDao = todoListDao,
+            ioDispatcher = StandardTestDispatcher(testScheduler)
+        )
         val todoList = createTodoList()
-        runBlocking {
-            todoListRepository.getTodoListById(todoList.id)
-        }
+
+        todoListRepository.getTodoListById(todoList.id)
+
         coVerify(exactly = 1) { todoListDao.getById(todoList.id) }
         confirmVerified(todoListDao)
     }
 
     @Test
-    fun `should get list of todo list with dao`() {
-        runBlocking {
-            todoListRepository.getTodoLists()
-        }
+    fun `should get list of todo list with dao`() = runTest {
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
+            todoListDao = todoListDao,
+            ioDispatcher = StandardTestDispatcher(testScheduler)
+        )
+        todoListRepository.getTodoLists()
+
         coVerify(exactly = 1) { todoListDao.getAll() }
         confirmVerified(todoListDao)
     }
