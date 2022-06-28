@@ -2,8 +2,8 @@ package com.personal.todolist.ui
 
 import com.personal.todolist.domain.models.TodoList
 
-data class TodoListState(
-    val isLoading: Boolean = false,
-    val todoLists: List<TodoList> = emptyList(),
-    val error: String = ""
-)
+sealed class TodoListState {
+    data class Loading(val isLoading: Boolean) : TodoListState()
+    data class Success(val todoLists: List<TodoList>) : TodoListState()
+    data class Error(val error: String) : TodoListState()
+}

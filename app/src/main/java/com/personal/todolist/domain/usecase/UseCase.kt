@@ -4,5 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UseCase<in Parameter, Result> {
     fun execute(params: Parameter) : Flow<Result>
-    class None
+    sealed class Parameters {
+        object None
+    }
 }
