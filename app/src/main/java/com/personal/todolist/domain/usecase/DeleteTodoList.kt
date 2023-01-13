@@ -10,10 +10,9 @@ import javax.inject.Inject
 
 class DeleteTodoList @Inject constructor(
     private val todoListRepository: TodoListRepository
-) : UseCase<TodoList, Resource<Boolean>> {
-    override fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
+) {
+    fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
         try {
-            emit(Resource.Loading())
             val todoListDeleted = todoListRepository.deleteTodoList(params)
             emit(Resource.Success(todoListDeleted))
         } catch (e: SQLiteException) {

@@ -8,16 +8,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetTodoListById @Inject constructor(private val todoListRepository: TodoListRepository) :
-    UseCase<Long, Resource<TodoList>> {
-    override fun execute(params: Long): Flow<Resource<TodoList>> = flow {
+class GetTodoListById @Inject constructor(private val todoListRepository: TodoListRepository) {
+    fun execute(params: Long): Flow<Resource<TodoList>> = flow {
         try {
-            emit(Resource.Loading())
             val todoList = todoListRepository.getTodoListById(params)
             emit(Resource.Success(todoList))
         } catch (e: SQLiteException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
         }
-
     }
 }

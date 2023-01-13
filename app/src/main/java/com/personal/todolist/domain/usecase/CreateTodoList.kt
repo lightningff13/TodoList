@@ -6,15 +6,13 @@ import com.personal.todolist.domain.models.TodoList
 import com.personal.todolist.domain.repository.TodoListRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.lang.Exception
 import javax.inject.Inject
 
 class CreateTodoList @Inject constructor(
     private val todoListRepository: TodoListRepository
-) : UseCase<TodoList, Resource<Boolean>> {
-    override fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
+) {
+    fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
         try {
-            emit(Resource.Loading())
             val isTodoListAdded = todoListRepository.addTodoList(params)
             emit(Resource.Success(isTodoListAdded))
         } catch (e: SQLiteException) {

@@ -3,10 +3,10 @@ package com.personal.todolist.ui.viewModels
 import androidx.lifecycle.ViewModel
 import com.personal.todolist.common.Resource
 import com.personal.todolist.domain.usecase.GetTodoLists
-import com.personal.todolist.domain.usecase.UseCase.Parameters
 import com.personal.todolist.ui.TodoListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +15,7 @@ class GetTodoListsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val todoListsFlow = getTodoLists
-        .execute(Parameters.None)
+        .execute()
         .map { result ->
             when (result) {
                 is Resource.Success -> {
@@ -24,9 +24,8 @@ class GetTodoListsViewModel @Inject constructor(
                 is Resource.Error -> {
                     TodoListState.Error(error = result.message ?: "An unexpected error occurred")
                 }
-                is Resource.Loading -> {
-                    TodoListState.Loading(isLoading = result.isLoading)
-                }
             }
+        }.onStart {
+            emit(TodoListState.Loading)
         }
 }
