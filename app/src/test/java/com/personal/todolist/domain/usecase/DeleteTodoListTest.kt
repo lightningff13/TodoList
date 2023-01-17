@@ -8,6 +8,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -21,25 +22,12 @@ class DeleteTodoListTest : UseCaseTest() {
     }
 
     @Test
-    fun `should delete todo list with repository when successful returns a flow with a success resource`() =
+    fun `should delete todo list`() =
         runTest {
             val todoList = createTodoList()
 
             val elements = deleteTodoList.execute(todoList).toList()
-            Truth.assertThat(elements.last()).isInstanceOf(Resource.Success::class.java)
-
-            coVerify(exactly = 1) { todoListRepository.deleteTodoList(todoList) }
-            confirmVerified(todoListRepository)
-        }
-
-    @Test
-    fun `should delete todo list with repository when failing returns a flow with an error resource`() =
-        runTest {
-            coEvery { todoListRepository.deleteTodoList(any()) } throws SQLiteException()
-            val todoList = createTodoList()
-
-            val elements = deleteTodoList.execute(todoList).toList()
-            Truth.assertThat(elements.last()).isInstanceOf(Resource.Error::class.java)
+            Truth.assertThat(elements.last()).isEqualTo(true)
 
             coVerify(exactly = 1) { todoListRepository.deleteTodoList(todoList) }
             confirmVerified(todoListRepository)

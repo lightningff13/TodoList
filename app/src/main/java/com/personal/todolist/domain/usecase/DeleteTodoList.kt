@@ -11,12 +11,7 @@ import javax.inject.Inject
 class DeleteTodoList @Inject constructor(
     private val todoListRepository: TodoListRepository
 ) {
-    fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
-        try {
-            val todoListDeleted = todoListRepository.deleteTodoList(params)
-            emit(Resource.Success(todoListDeleted))
-        } catch (e: SQLiteException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
-        }
+    fun execute(params: TodoList): Flow<Boolean> = flow {
+        emit(todoListRepository.deleteTodoList(params))
     }
 }
