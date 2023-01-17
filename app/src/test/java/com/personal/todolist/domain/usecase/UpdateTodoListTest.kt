@@ -26,20 +26,7 @@ class UpdateTodoListTest : UseCaseTest() {
             val todoList = createTodoList()
 
             val elements = updateTodoList.execute(todoList).toList()
-            Truth.assertThat(elements.last()).isInstanceOf(Resource.Success::class.java)
-
-            coVerify(exactly = 1) { todoListRepository.updateTodoList(todoList) }
-            confirmVerified(todoListRepository)
-        }
-
-    @Test
-    fun `should update todo list with repository when failing returns a flow with an error resource`() =
-        runTest {
-            coEvery { todoListRepository.updateTodoList(any()) } throws SQLiteException()
-            val todoList = createTodoList()
-
-            val elements = updateTodoList.execute(todoList).toList()
-            Truth.assertThat(elements.last()).isInstanceOf(Resource.Error::class.java)
+            Truth.assertThat(elements.last()).isEqualTo(true)
 
             coVerify(exactly = 1) { todoListRepository.updateTodoList(todoList) }
             confirmVerified(todoListRepository)

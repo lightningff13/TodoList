@@ -21,18 +21,22 @@ class FakeTodoListRepository : TodoListRepository {
 
     override suspend fun addTodoList(todoList: TodoList): Boolean =
         currentTodoList.let { current ->
-            val newTodoList = current + todoList
-            todoListsFlow.tryEmit(newTodoList)
+            val newTodoLists = current + todoList
+            todoListsFlow.tryEmit(newTodoLists)
         }
 
-    override suspend fun updateTodoList(todoList: TodoList): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateTodoList(todoList: TodoList): Boolean =
+        currentTodoList.let { current ->
+            val todoListToDelete = current.find { it.id == todoList.id }!!
+            val newTodoLists = current - todoListToDelete + todoList
+            todoListsFlow.tryEmit(newTodoLists)
+        }
+
 
     override suspend fun deleteTodoList(todoList: TodoList): Boolean =
         currentTodoList.let { current ->
-            val newTodoList = current - todoList
-            todoListsFlow.tryEmit(newTodoList)
+            val newTodoLists = current - todoList
+            todoListsFlow.tryEmit(newTodoLists)
         }
     
     override fun getTodoListById(todoListId: Long): Flow<TodoList> = todoListsFlow.map { todoLists ->

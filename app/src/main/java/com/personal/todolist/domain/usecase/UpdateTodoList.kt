@@ -9,13 +9,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class UpdateTodoList @Inject constructor(private val todoListRepository: TodoListRepository) {
-    fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
-        try {
-            val updatedTodoList = todoListRepository.updateTodoList(params)
-            emit(Resource.Success(updatedTodoList))
-        } catch (e: SQLiteException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
-        }
+    fun execute(params: TodoList): Flow<Boolean> = flow {
+        emit(todoListRepository.updateTodoList(params))
     }
-
 }
