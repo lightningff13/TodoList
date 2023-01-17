@@ -6,6 +6,10 @@ import com.personal.todolist.di.IoDispatcher
 import com.personal.todolist.domain.models.TodoList
 import com.personal.todolist.domain.repository.TodoListRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -37,10 +41,8 @@ class TodoListRepositoryImpl @Inject constructor(
         }
     }
 
-
-    override suspend fun getTodoLists(): List<TodoList> {
-        return withContext(ioDispatcher) {
-            todoListDao.getAll().map { it.toDomain() }
+    override fun getTodoLists(): Flow<List<TodoList>> =
+        todoListDao.getAll().map { todoListWithTasks ->
+            todoListWithTasks.map { it.toDomain()  }
         }
-    }
 }

@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.lifecycle.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.lifecycle.runtime.compose)
     implementation(libs.bundles.compose)
     implementation("com.google.android.material:material:1.7.0")
 

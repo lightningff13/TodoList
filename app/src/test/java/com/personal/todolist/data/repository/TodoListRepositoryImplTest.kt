@@ -8,6 +8,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -18,7 +19,7 @@ class TodoListRepositoryTest : RepositoryTest() {
         coEvery { todoListDao.insert(any<TodoList>()) } returns true
         coEvery { todoListDao.delete(any<TodoList>()) } returns true
         coEvery { todoListDao.getById(any()) } returns createTodoListWithTasks()
-        coEvery { todoListDao.getAll() } returns listOf(createTodoListWithTasks())
+        coEvery { todoListDao.getAll() } returns flowOf(listOf(createTodoListWithTasks()))
     }
 
     @Test

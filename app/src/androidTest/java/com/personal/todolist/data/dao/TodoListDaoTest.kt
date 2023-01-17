@@ -8,6 +8,9 @@ import com.personal.todolist.data.mappers.toDomain
 import com.personal.todolist.data.mappers.toEntity
 import com.personal.todolist.domain.models.TodoList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -20,8 +23,11 @@ class TodoListDaoTest : DbTest() {
             val expectedList = listOf(todoList)
 
             todoListDao.insert(todoList)
-            val todoLists = todoListDao.getAll().map { it.todoListEntity }
-
+            val todoLists = todoListDao.getAll()
+                .first()
+                .map {
+                      it.todoListEntity
+                }
             assertThat(todoLists).isEqualTo(expectedList)
         }
 
@@ -38,7 +44,9 @@ class TodoListDaoTest : DbTest() {
             expectedList.add(taskEntity)
 
             todoListDao.insert(taskEntity)
-            val tasks = todoListDao.getAll().flatMap { it.taskEntities }
+            val tasks = todoListDao.getAll()
+                .first()
+                .flatMap { it.taskEntities }
 
             assertThat(tasks).isEqualTo(expectedList)
         }
@@ -50,7 +58,7 @@ class TodoListDaoTest : DbTest() {
             val expectedList = listOf(todoList)
 
             todoListDao.insert(todoList)
-            val todoLists = todoListDao.getAll().map { it.toDomain() }
+            val todoLists = todoListDao.getAll().first().map { it.toDomain() }
 
             assertThat(todoLists).isEqualTo(expectedList)
         }
@@ -63,7 +71,7 @@ class TodoListDaoTest : DbTest() {
 
             todoListDao.insert(todoList)
             todoListDao.delete(todoList)
-            val todoLists = todoListDao.getAll().map { it.todoListEntity }
+            val todoLists = todoListDao.getAll().first().map { it.todoListEntity }
 
             assertThat(todoLists).isEmpty()
         }
@@ -79,7 +87,7 @@ class TodoListDaoTest : DbTest() {
 
             todoListDao.insert(taskEntity)
             todoListDao.delete(taskEntity)
-            val tasks: List<TaskEntity> = todoListDao.getAll().flatMap { it.taskEntities }
+            val tasks: List<TaskEntity> = todoListDao.getAll().first().flatMap { it.taskEntities }
 
             assertThat(tasks).isEmpty()
         }
@@ -91,7 +99,7 @@ class TodoListDaoTest : DbTest() {
 
             todoListDao.insert(todoList)
             todoListDao.delete(todoList)
-            val todoLists = todoListDao.getAll().map { it.toDomain() }
+            val todoLists = todoListDao.getAll().first().map { it.toDomain() }
 
             assertThat(todoLists).isEmpty()
         }
@@ -110,7 +118,7 @@ class TodoListDaoTest : DbTest() {
             expectedList.add(todoList)
             expectedList.add(todoList2)
 
-            val todoLists = todoListDao.getAll().map { it.toDomain() }
+            val todoLists = todoListDao.getAll().first().map { it.toDomain() }
 
             assertThat(todoLists).isEqualTo(expectedList)
         }
@@ -142,7 +150,7 @@ class TodoListDaoTest : DbTest() {
             todoListDao.insert(todoList)
             todoListDao.insert(todoList2)
 
-            val todoLists = todoListDao.getAll().map { it.toDomain() }
+            val todoLists = todoListDao.getAll().first().map { it.toDomain() }
 
             assertThat(todoLists.size).isEqualTo(1)
             assertThat(todoLists.first()).isEqualTo(todoList2)

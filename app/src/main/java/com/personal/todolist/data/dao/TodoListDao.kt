@@ -7,6 +7,7 @@ import com.personal.todolist.data.entities.TodoListEntity
 import com.personal.todolist.data.entities.TodoListWithTasks
 import com.personal.todolist.data.mappers.toEntity
 import com.personal.todolist.domain.models.TodoList
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoListDao {
@@ -51,7 +52,7 @@ interface TodoListDao {
     @Transaction
     @Query("SELECT * FROM todo_list")
     @Throws(SQLiteException::class)
-    suspend fun getAll(): List<TodoListWithTasks>
+    fun getAll(): Flow<List<TodoListWithTasks>>
 
     @Transaction
     @Query("SELECT * FROM todo_list where id = :todoListId")

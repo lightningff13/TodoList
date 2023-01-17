@@ -17,6 +17,7 @@ dependencyResolutionManagement {
             version("compose.ui", "1.3.1")
             version("nav", "2.4.1")
             version("lifecycle", "2.5.1")
+            version("lifecycle.runtime.compose","2.6.0-alpha04" )
             version("room", "2.4.3")
             version("mockK", "1.12.0")
             version("coroutines", "1.6.4")
@@ -26,6 +27,7 @@ dependencyResolutionManagement {
             version("core.ktx", "1.9.0")
 
             library("androidx.lifecycle.lifecycle.runtime.ktx", "androidx.lifecycle", "lifecycle-runtime-ktx").versionRef("lifecycle")
+            library("androidx.lifecycle.lifecycle.runtime.compose", "androidx.lifecycle", "lifecycle-runtime-compose").versionRef("lifecycle.runtime.compose")
 
             library("androidx.activity.compose", "androidx.activity:activity-compose:1.6.1")
             library("androidx.compose.ui", "androidx.compose.ui", "ui").versionRef("androidx.compose")

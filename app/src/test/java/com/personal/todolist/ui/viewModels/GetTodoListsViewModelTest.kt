@@ -2,71 +2,46 @@ package com.personal.todolist.ui.viewModels
 
 import com.google.common.truth.Truth.assertThat
 import com.personal.todolist.MainDispatcherRule
-import com.personal.todolist.common.Resource
+import com.personal.todolist.data.repository.FakeTodoListRepository
 import com.personal.todolist.domain.usecase.GetTodoLists
 import com.personal.todolist.ui.TodoListState
 import com.personal.todolist.utils.createTodoList
-import io.mockk.clearMocks
 import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.confirmVerified
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.BeforeAll
 
 @ExperimentalCoroutinesApi
 class GetTodoListsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val getTodoListsUseCase: GetTodoLists = mockk()
+    private val fakeTodoListRepository = FakeTodoListRepository()
+    private val getTodoListsUseCase = GetTodoLists(fakeTodoListRepository)
 
-    @BeforeAll
-    fun init() {
-        clearMocks(getTodoListsUseCase)
+    private lateinit var viewModel: GetTodoListsViewModel
+    @Before
+    fun setup(){
+        viewModel = GetTodoListsViewModel(getTodoListsUseCase)
     }
 
     @Test
     fun `should get list of todo list with use case when successful returns a flow with a loading state and a success state`() =
         runTest {
-            coEvery { getTodoListsUseCase.execute() } returns flow {
-                emit(Resource.Success(data = listOf(createTodoList())))
+            val collectJob = launch(UnconfinedTestDispatcher()){
+                viewModel.todoListUiState.collect()
             }
 
-            val viewModel = GetTodoListsViewModel(getTodoListsUseCase)
-            val todoLists = viewModel.todoListsFlow.toList()
-            val expectedTodoListStates = listOf(
-                TodoListState.Loading,
-                TodoListState.Success(todoLists = listOf(createTodoList()))
-            )
+            assertThat(viewModel.todoListUiState.value).isEqualTo(TodoListState.Loading)
 
-            coVerify(exactly = 1) { getTodoListsUseCase.execute() }
-            confirmVerified(getTodoListsUseCase)
-            assertThat(todoLists).isEqualTo(expectedTodoListStates)
-        }
+            fakeTodoListRepository.sendTodoLists(listOf(createTodoList()))
+            assertThat(viewModel.todoListUiState.value).isEqualTo(TodoListState.Success(todoLists = listOf(createTodoList())))
 
-    @Test
-    fun `should get list of todo list with use case when error returns a flow with a loading state and an error state`() =
-        runTest {
-            val errorMessage = "Unexpected error occurred"
-            coEvery { getTodoListsUseCase.execute() } returns flow {
-                emit(Resource.Error(message = errorMessage))
-            }
-
-            val viewModel = GetTodoListsViewModel(getTodoListsUseCase)
-            val todoLists = viewModel.todoListsFlow.toList()
-            val expectedTodoListStates = listOf(
-                TodoListState.Loading,
-                TodoListState.Error(error = errorMessage)
-            )
-
-            coVerify(exactly = 1) { getTodoListsUseCase.execute() }
-            confirmVerified(getTodoListsUseCase)
-            assertThat(todoLists).isEqualTo(expectedTodoListStates)
+            collectJob.cancel()
         }
 }
