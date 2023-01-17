@@ -57,5 +57,5 @@ interface TodoListDao {
     @Transaction
     @Query("SELECT * FROM todo_list where id = :todoListId")
     @Throws(SQLiteException::class)
-    suspend fun getById(todoListId : Long): TodoListWithTasks
+    fun getById(todoListId : Long): Flow<TodoListWithTasks>
 }

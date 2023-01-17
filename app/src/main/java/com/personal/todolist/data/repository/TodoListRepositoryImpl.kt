@@ -35,12 +35,10 @@ class TodoListRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTodoListById(todoListId: Long): TodoList {
-        return withContext(ioDispatcher) {
-            todoListDao.getById(todoListId).toDomain()
-        }
-    }
-
+    override fun getTodoListById(todoListId: Long): Flow<TodoList> =
+            todoListDao.getById(todoListId).map {
+                it.toDomain()
+            }
     override fun getTodoLists(): Flow<List<TodoList>> =
         todoListDao.getAll().map { todoListWithTasks ->
             todoListWithTasks.map { it.toDomain()  }

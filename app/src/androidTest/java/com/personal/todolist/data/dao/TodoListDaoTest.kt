@@ -133,7 +133,7 @@ class TodoListDaoTest : DbTest() {
             todoListDao.insert(todoList)
             todoListDao.insert(todoList2)
 
-            val todoListById = todoListDao.getById(todoList.id).toDomain()
+            val todoListById = todoListDao.getById(todoList.id).first().toDomain()
 
             assertThat(todoListById).isEqualTo(todoList)
         }

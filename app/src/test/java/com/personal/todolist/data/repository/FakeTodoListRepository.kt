@@ -28,17 +28,12 @@ class FakeTodoListRepository : TodoListRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTodoListById(todoListId: Long): TodoList {
-        TODO("Not yet implemented")
+    override fun getTodoListById(todoListId: Long): Flow<TodoList> = todoListsFlow.map { todoLists ->
+        todoLists.find { it.id == todoListId }!!
     }
     override fun getTodoLists(): Flow<List<TodoList>> = todoListsFlow
 
     fun sendTodoLists(value: List<TodoList>) {
         todoListsFlow.tryEmit(value)
-    }
-
-    @Throws
-    suspend fun throwException(message: String) {
-        todoListsFlow.onStart { throw Exception(message) }.toList()
     }
 }

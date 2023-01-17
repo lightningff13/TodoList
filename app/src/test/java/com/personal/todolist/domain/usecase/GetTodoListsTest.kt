@@ -22,7 +22,7 @@ class GetTodoListsTest : UseCaseTest() {
     }
 
     @Test
-    fun `should get list of todo list with repository when successful returns a flow with success resource`() =
+    fun `should returns a flow of list of todo list`() =
         runTest {
             val elements = getTodoLists.execute().toList()
             assertThat(elements.last()).isEqualTo(listOf(createTodoList()))

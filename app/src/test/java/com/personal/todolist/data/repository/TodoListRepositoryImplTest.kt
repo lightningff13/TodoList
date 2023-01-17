@@ -18,7 +18,7 @@ class TodoListRepositoryTest : RepositoryTest() {
     init {
         coEvery { todoListDao.insert(any<TodoList>()) } returns true
         coEvery { todoListDao.delete(any<TodoList>()) } returns true
-        coEvery { todoListDao.getById(any()) } returns createTodoListWithTasks()
+        coEvery { todoListDao.getById(any()) } returns flowOf(createTodoListWithTasks())
         coEvery { todoListDao.getAll() } returns flowOf(listOf(createTodoListWithTasks()))
     }
 
