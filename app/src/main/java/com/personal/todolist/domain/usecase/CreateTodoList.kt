@@ -11,12 +11,7 @@ import javax.inject.Inject
 class CreateTodoList @Inject constructor(
     private val todoListRepository: TodoListRepository
 ) {
-    fun execute(params: TodoList): Flow<Resource<Boolean>> = flow {
-        try {
-            val isTodoListAdded = todoListRepository.addTodoList(params)
-            emit(Resource.Success(isTodoListAdded))
-        } catch (e: SQLiteException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
-        }
+    fun execute(params: TodoList): Flow<Boolean> = flow {
+        emit(todoListRepository.addTodoList(params))
     }
 }

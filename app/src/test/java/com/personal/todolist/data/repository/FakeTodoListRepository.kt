@@ -19,9 +19,11 @@ class FakeTodoListRepository : TodoListRepository {
 
     private val currentTodoList get() = todoListsFlow.replayCache.firstOrNull() ?: emptyList()
 
-    override suspend fun addTodoList(todoList: TodoList): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun addTodoList(todoList: TodoList): Boolean =
+        currentTodoList.let { current ->
+            val newTodoList = current + todoList
+            todoListsFlow.tryEmit(newTodoList)
+        }
 
     override suspend fun updateTodoList(todoList: TodoList): Boolean {
         TODO("Not yet implemented")

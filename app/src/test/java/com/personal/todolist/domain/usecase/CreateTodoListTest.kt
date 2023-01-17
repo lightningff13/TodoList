@@ -22,26 +22,12 @@ class CreateTodoListTest : UseCaseTest() {
     }
 
     @Test
-    fun `should add todo list with repository when successful returns a flow with a success resource`() =
+    fun `should add todo list`() =
         runTest {
             val todoList = createTodoList()
 
             val elements = createTodoList.execute(todoList).toList()
-            assertThat(elements.last()).isInstanceOf(Resource.Success::class.java)
-
-            coVerify(exactly = 1) { todoListRepository.addTodoList(todoList) }
-            confirmVerified(todoListRepository)
-        }
-
-
-    @Test
-    fun `should add todo list with repository when failing returns a flow with an error resource`() =
-        runTest {
-            coEvery { todoListRepository.addTodoList(any()) } throws SQLiteException()
-            val todoList = createTodoList()
-
-            val elements = createTodoList.execute(todoList).toList()
-            assertThat(elements.last()).isInstanceOf(Resource.Error::class.java)
+            assertThat(elements.last()).isEqualTo(true)
 
             coVerify(exactly = 1) { todoListRepository.addTodoList(todoList) }
             confirmVerified(todoListRepository)
