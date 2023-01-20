@@ -49,7 +49,7 @@ fun TodoListSummary(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            IconButton(modifier = Modifier.weight(1.0F), onClick = { onDeleteClick() }) {
+            IconButton(modifier = Modifier.weight(1.0F), onClick = onDeleteClick) {
                 Icon(
                     imageVector = Icons.Filled.Delete,
                     contentDescription = "Delete"

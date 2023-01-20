@@ -24,10 +24,10 @@ class CreateTodoListUseCaseTest : UseCaseTest() {
         runTest {
             val todoList = createTodoList()
 
-            val elements = createTodoList.execute(todoList).toList()
+            val elements = createTodoList.execute(todoList.title).toList()
             assertThat(elements.last()).isEqualTo(true)
 
-            coVerify(exactly = 1) { todoListRepository.addTodoList(todoList) }
+            coVerify(exactly = 1) { todoListRepository.addTodoList(todoList.title) }
             confirmVerified(todoListRepository)
         }
 }

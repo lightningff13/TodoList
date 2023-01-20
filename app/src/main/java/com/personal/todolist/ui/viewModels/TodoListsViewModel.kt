@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.personal.todolist.common.STOP_TIMEOUT_MILLIS
 import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.domain.usecase.CreateTodoListUseCase
 import com.personal.todolist.domain.usecase.DeleteTodoListUseCase
 import com.personal.todolist.domain.usecase.GetTodoListsUseCase
 import com.personal.todolist.ui.TodoListState
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoListsViewModel @Inject constructor(
     getTodoLists: GetTodoListsUseCase,
+    private val addTodoList: CreateTodoListUseCase,
     private val deleteTodoList: DeleteTodoListUseCase
 ) : ViewModel() {
 
@@ -37,6 +39,12 @@ class TodoListsViewModel @Inject constructor(
     fun deleteTodoList(todoList: TodoList) {
         viewModelScope.launch {
             deleteTodoList.execute(todoList).collect()
+        }
+    }
+
+    fun addTodoList(todoListTitle: String) {
+        viewModelScope.launch {
+            addTodoList.execute(todoListTitle).collect()
         }
     }
 }

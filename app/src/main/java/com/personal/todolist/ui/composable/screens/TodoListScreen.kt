@@ -12,7 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.personal.todolist.common.createTodoLists
 import com.personal.todolist.domain.models.TodoList
 import com.personal.todolist.ui.TodoListState
-import com.personal.todolist.ui.composable.todolists.AddTodoListButton
+import com.personal.todolist.ui.composable.todolists.CreateTodoListButton
 import com.personal.todolist.ui.composable.todolists.TodoListsContent
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 import com.personal.todolist.ui.viewModels.TodoListsViewModel
@@ -24,9 +24,13 @@ fun TodoListsScreen(viewModel: TodoListsViewModel = hiltViewModel()) {
     val onDeleteTodoList: (TodoList) -> Unit = {
         viewModel.deleteTodoList(it)
     }
+    val onAddTodoList: (String) -> Unit = {
+        viewModel.addTodoList(it)
+    }
     TodoListsScreenContent(
         uiState = todoListUiState,
-        onDeleteTodoList = onDeleteTodoList
+        onDeleteTodoList = onDeleteTodoList,
+        onAddClick = onAddTodoList
     )
 }
 
@@ -34,11 +38,14 @@ fun TodoListsScreen(viewModel: TodoListsViewModel = hiltViewModel()) {
 @Composable
 fun TodoListsScreenContent(
     uiState: TodoListState,
-    onDeleteTodoList: (TodoList) -> Unit = {}
+    onDeleteTodoList: (TodoList) -> Unit = {},
+    onAddClick: (String) -> Unit = {}
 ) {
     Scaffold(
         floatingActionButton = {
-            AddTodoListButton()
+            CreateTodoListButton(
+                onCreateClick = onAddClick
+            )
         },
         floatingActionButtonPosition = FabPosition.Center
     ) {

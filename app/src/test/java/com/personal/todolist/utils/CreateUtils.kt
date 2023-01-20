@@ -8,7 +8,7 @@ import com.personal.todolist.domain.models.Task
 import com.personal.todolist.domain.models.TodoList
 
 fun createTodoList(
-    id: Long = 1L,
+    id: Long = 0L,
     title: String = "Todo List",
     tasks: List<Task> = listOf(createTask())
 ) = TodoList(

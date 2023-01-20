@@ -31,7 +31,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
         val todoList = createTodoList()
 
-        todoListRepository.addTodoList(todoList)
+        todoListRepository.addTodoList(todoList.title, todoList.tasks)
 
         coVerify(exactly = 1) { todoListDao.insert(todoList) }
         confirmVerified(todoListDao)
