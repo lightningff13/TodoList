@@ -17,11 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.personal.todolist.common.createTodoLists
+import com.personal.todolist.domain.models.TodoList
 import com.personal.todolist.ui.TodoListState
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 
 @Composable
-fun TodoListsContent(todoListUiState: TodoListState) {
+fun TodoListsContent(
+    todoListUiState: TodoListState,
+    onDeleteTodoList: (TodoList) -> Unit = {}
+) {
     when (todoListUiState) {
         is TodoListState.Error -> {
             Snackbar(
@@ -50,7 +54,11 @@ fun TodoListsContent(todoListUiState: TodoListState) {
             } else {
                 LazyColumn(modifier = Modifier.padding(10.dp)) {
                     items(items = todoListUiState.todoLists) {
-                        TodoListSummary(todoListTitle = it.title, taskList = it.tasks)
+                        TodoListSummary(
+                            todoListTitle = it.title,
+                            taskList = it.tasks,
+                            onDeleteClick = { onDeleteTodoList(it) }
+                        )
                     }
                 }
             }

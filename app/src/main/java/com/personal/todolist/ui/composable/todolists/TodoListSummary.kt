@@ -24,7 +24,11 @@ import com.personal.todolist.domain.models.Task
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 
 @Composable
-fun TodoListSummary(todoListTitle: String, taskList: List<Task>) {
+fun TodoListSummary(
+    todoListTitle: String,
+    taskList: List<Task>,
+    onDeleteClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier.padding(10.dp),
         shape = MaterialTheme.shapes.medium,
@@ -48,7 +52,7 @@ fun TodoListSummary(todoListTitle: String, taskList: List<Task>) {
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            IconButton(modifier = Modifier.weight(1.0F), onClick = { /*TODO*/ }) {
+            IconButton(modifier = Modifier.weight(1.0F), onClick = { onDeleteClick() }) {
                 Icon(
                     imageVector = Icons.Filled.Delete,
                     contentDescription = "Delete"

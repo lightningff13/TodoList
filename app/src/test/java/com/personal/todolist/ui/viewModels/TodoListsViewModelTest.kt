@@ -3,10 +3,10 @@ package com.personal.todolist.ui.viewModels
 import com.google.common.truth.Truth.assertThat
 import com.personal.todolist.MainDispatcherRule
 import com.personal.todolist.data.repository.FakeTodoListRepository
+import com.personal.todolist.domain.usecase.DeleteTodoList
 import com.personal.todolist.domain.usecase.GetTodoLists
 import com.personal.todolist.ui.TodoListState
 import com.personal.todolist.utils.createTodoList
-import io.mockk.coEvery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -17,17 +17,18 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetTodoListsViewModelTest {
+class TodoListsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     private val fakeTodoListRepository = FakeTodoListRepository()
     private val getTodoListsUseCase = GetTodoLists(fakeTodoListRepository)
+    private val deleteTodoListUseCase = DeleteTodoList(fakeTodoListRepository)
 
-    private lateinit var viewModel: GetTodoListsViewModel
+    private lateinit var viewModel: TodoListsViewModel
     @Before
     fun setup(){
-        viewModel = GetTodoListsViewModel(getTodoListsUseCase)
+        viewModel = TodoListsViewModel(getTodoListsUseCase, deleteTodoListUseCase)
     }
 
     @Test
