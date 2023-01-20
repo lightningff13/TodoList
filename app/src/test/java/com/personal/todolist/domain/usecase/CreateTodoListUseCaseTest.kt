@@ -1,8 +1,6 @@
 package com.personal.todolist.domain.usecase
 
-import android.database.sqlite.SQLiteException
 import com.google.common.truth.Truth.assertThat
-import com.personal.todolist.common.Resource
 import com.personal.todolist.utils.createTodoList
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,8 +12,8 @@ import org.junit.Test
 
 
 @ExperimentalCoroutinesApi
-class CreateTodoListTest : UseCaseTest() {
-    private val createTodoList = CreateTodoList(todoListRepository)
+class CreateTodoListUseCaseTest : UseCaseTest() {
+    private val createTodoList = CreateTodoListUseCase(todoListRepository)
 
     init {
         coEvery { todoListRepository.addTodoList(any()) } returns true

@@ -1,8 +1,6 @@
 package com.personal.todolist.domain.usecase
 
-import android.database.sqlite.SQLiteException
 import com.google.common.truth.Truth
-import com.personal.todolist.common.Resource
 import com.personal.todolist.utils.createTodoList
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,8 +12,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetTodoListByIdTest : UseCaseTest() {
-    private val getTodoListById = GetTodoListById(todoListRepository)
+class GetTodoListByIdUseCaseTest : UseCaseTest() {
+    private val getTodoListById = GetTodoListByIdUseCase(todoListRepository)
 
     init {
         coEvery { todoListRepository.getTodoListById(any()) } returns flowOf(createTodoList())

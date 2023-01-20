@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.personal.todolist.common.STOP_TIMEOUT_MILLIS
 import com.personal.todolist.domain.models.TodoList
-import com.personal.todolist.domain.usecase.DeleteTodoList
-import com.personal.todolist.domain.usecase.GetTodoLists
+import com.personal.todolist.domain.usecase.DeleteTodoListUseCase
+import com.personal.todolist.domain.usecase.GetTodoListsUseCase
 import com.personal.todolist.ui.TodoListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoListsViewModel @Inject constructor(
-    getTodoLists: GetTodoLists,
-    private val deleteTodoListUseCase: DeleteTodoList
+    getTodoLists: GetTodoListsUseCase,
+    private val deleteTodoList: DeleteTodoListUseCase
 ) : ViewModel() {
 
 
@@ -36,7 +36,7 @@ class TodoListsViewModel @Inject constructor(
 
     fun deleteTodoList(todoList: TodoList) {
         viewModelScope.launch {
-            deleteTodoListUseCase.execute(todoList).collect()
+            deleteTodoList.execute(todoList).collect()
         }
     }
 }
