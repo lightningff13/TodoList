@@ -14,11 +14,9 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.personal.todolist.common.createTask
 import com.personal.todolist.domain.models.Task
 import com.personal.todolist.ui.ui.theme.TodoListTheme
@@ -42,12 +40,11 @@ fun TodoListSummary(
             ) {
                 Text(
                     text = todoListTitle,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
+                    style = MaterialTheme.typography.h1
                 )
                 Text(
                     text = taskList.joinToString(", ") { it.description },
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.body1,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

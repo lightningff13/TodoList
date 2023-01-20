@@ -1,7 +1,6 @@
 package com.personal.todolist.ui.composable.todolists
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -40,6 +39,7 @@ fun AddTodoListButton() {
             TextField(
                 value = textState.value,
                 onValueChange = { textState.value = it },
+                textStyle = MaterialTheme.typography.button,
                 placeholder = { Text(text = "Create a note...", color = Shampoo) },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
