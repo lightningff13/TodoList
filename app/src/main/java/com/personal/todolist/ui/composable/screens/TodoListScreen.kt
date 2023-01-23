@@ -19,7 +19,10 @@ import com.personal.todolist.ui.viewModels.TodoListsViewModel
 
 
 @Composable
-fun TodoListsScreen(viewModel: TodoListsViewModel = hiltViewModel()) {
+fun TodoListsScreen(
+    viewModel: TodoListsViewModel = hiltViewModel(),
+    onTodoListClick: (Long) -> Unit = {}
+) {
     val todoListUiState by viewModel.todoListUiState.collectAsStateWithLifecycle()
     val onDeleteTodoList: (TodoList) -> Unit = {
         viewModel.deleteTodoList(it)
@@ -29,6 +32,7 @@ fun TodoListsScreen(viewModel: TodoListsViewModel = hiltViewModel()) {
     }
     TodoListsScreenContent(
         uiState = todoListUiState,
+        onTodoListClick = onTodoListClick,
         onDeleteTodoList = onDeleteTodoList,
         onAddClick = onAddTodoList
     )
@@ -38,6 +42,7 @@ fun TodoListsScreen(viewModel: TodoListsViewModel = hiltViewModel()) {
 @Composable
 fun TodoListsScreenContent(
     uiState: TodoListState,
+    onTodoListClick: (Long) -> Unit = {},
     onDeleteTodoList: (TodoList) -> Unit = {},
     onAddClick: (String) -> Unit = {}
 ) {
@@ -51,6 +56,7 @@ fun TodoListsScreenContent(
     ) {
         TodoListsContent(
             todoListUiState = uiState,
+            onTodoListClick = onTodoListClick,
             onDeleteTodoList = onDeleteTodoList
         )
     }

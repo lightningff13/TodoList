@@ -24,6 +24,7 @@ import com.personal.todolist.ui.ui.theme.TodoListTheme
 @Composable
 fun TodoListsContent(
     todoListUiState: TodoListState,
+    onTodoListClick: (Long) -> Unit = {},
     onDeleteTodoList: (TodoList) -> Unit = {}
 ) {
     when (todoListUiState) {
@@ -57,6 +58,7 @@ fun TodoListsContent(
                         TodoListSummary(
                             todoListTitle = it.title,
                             taskList = it.tasks,
+                            onTodoListClick = { onTodoListClick(it.id) },
                             onDeleteClick = { onDeleteTodoList(it) }
                         )
                     }

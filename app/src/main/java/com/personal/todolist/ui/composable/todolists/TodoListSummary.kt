@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -21,16 +22,19 @@ import com.personal.todolist.common.createTask
 import com.personal.todolist.domain.models.Task
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TodoListSummary(
     todoListTitle: String,
     taskList: List<Task>,
+    onTodoListClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier.padding(10.dp),
         shape = MaterialTheme.shapes.medium,
-        elevation = 10.dp
+        elevation = 10.dp,
+        onClick = onTodoListClick
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(

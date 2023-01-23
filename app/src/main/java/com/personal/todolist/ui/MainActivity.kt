@@ -3,7 +3,8 @@ package com.personal.todolist.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.personal.todolist.ui.composable.screens.TodoListsScreen
+import androidx.navigation.compose.rememberNavController
+import com.personal.todolist.ui.navigation.TodoListNavHost
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,7 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TodoListTheme {
-                TodoListsScreen()
+                val navController = rememberNavController()
+                TodoListNavHost(navController = navController)
             }
         }
     }
