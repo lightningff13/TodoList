@@ -30,12 +30,20 @@ interface TodoListDao {
     @Throws(SQLiteException::class)
     suspend fun insert(taskEntity: TaskEntity): Long
 
+    @Query("UPDATE todo_list SET title = :title WHERE id = :todoListId")
+    suspend fun updateTodoList(todoListId: Long, title: String): Int
+
+    @Query("UPDATE task SET description = :description WHERE id = :taskId")
+    suspend fun updateTaskDescription(taskId: Long, description: String): Int
+
+    @Query("UPDATE task SET complete = :complete WHERE id = :taskId")
+    suspend fun updateTaskCompletion(taskId: Long, complete: Boolean): Int
+
     @Transaction
     suspend fun delete(todoList: TodoList): Boolean {
         var deletedRowsNumbers = 0
         for (task in todoList.tasks) {
-            val taskEntity = task.toEntity(todoList.id)
-            deletedRowsNumbers += delete(taskEntity)
+            deletedRowsNumbers += deleteTask(task.id)
         }
         deletedRowsNumbers += delete(todoList.toEntity())
         return deletedRowsNumbers == todoList.tasks.size + 1
@@ -45,9 +53,8 @@ interface TodoListDao {
     @Throws(SQLiteException::class)
     suspend fun delete(todoListEntity: TodoListEntity): Int
 
-    @Delete
-    @Throws(SQLiteException::class)
-    suspend fun delete(taskEntity: TaskEntity): Int
+    @Query("DELETE FROM task where id = :taskId")
+    suspend fun deleteTask(taskId: Long): Int
 
     @Transaction
     @Query("SELECT * FROM todo_list")

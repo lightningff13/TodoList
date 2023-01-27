@@ -44,7 +44,7 @@ fun TodoListSummary(
             ) {
                 Text(
                     text = todoListTitle,
-                    style = MaterialTheme.typography.h1
+                    style = MaterialTheme.typography.h2
                 )
                 Text(
                     text = taskList.joinToString(", ") { it.description },

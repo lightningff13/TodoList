@@ -1,7 +1,9 @@
 package com.personal.todolist.data.repository
 
+import com.personal.todolist.common.ROW_ID_NOT_INSERTED
 import com.personal.todolist.data.dao.TodoListDao
 import com.personal.todolist.data.mappers.toDomain
+import com.personal.todolist.data.mappers.toEntity
 import com.personal.todolist.di.IoDispatcher
 import com.personal.todolist.domain.models.Task
 import com.personal.todolist.domain.models.TodoList
@@ -24,15 +26,50 @@ class TodoListRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateTodoList(todoList: TodoList): Boolean {
+    override suspend fun updateTodoList(todoListId: Long, title: String): Boolean {
         return withContext(ioDispatcher) {
-            todoListDao.insert(todoList)
+            todoListDao.updateTodoList(todoListId = todoListId, title = title) != 0
         }
     }
 
     override suspend fun deleteTodoList(todoList: TodoList): Boolean {
         return withContext(ioDispatcher) {
             todoListDao.delete(todoList)
+        }
+    }
+
+    override suspend fun addTaskToTodoList(todoListId: Long, taskDescription: String): Boolean {
+        return withContext(ioDispatcher) {
+            todoListDao.insert(
+                Task(
+                    description = taskDescription,
+                    complete = false
+                ).toEntity(todoListId = todoListId)
+            ) != ROW_ID_NOT_INSERTED
+        }
+    }
+
+    override suspend fun updateTaskDescription(taskId: Long, description: String): Boolean {
+        return withContext(ioDispatcher) {
+            todoListDao.updateTaskDescription(
+                taskId = taskId,
+                description = description
+            ) != 0
+        }
+    }
+
+    override suspend fun updateTaskCompletion(taskId: Long, complete: Boolean): Boolean {
+        return withContext(ioDispatcher) {
+            todoListDao.updateTaskCompletion(
+                taskId = taskId,
+                complete = complete
+            ) != 0
+        }
+    }
+
+    override suspend fun deleteTask(taskId: Long): Boolean {
+        return withContext(ioDispatcher) {
+            todoListDao.deleteTask(taskId = taskId) != 0
         }
     }
 

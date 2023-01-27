@@ -18,7 +18,7 @@ fun createTodoList(
 )
 
 fun createTask(
-    id: Long = 1L,
+    id: Long = 0L,
     description: String = "Description of the task",
     complete: Boolean = false
 ) = Task(

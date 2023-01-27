@@ -15,18 +15,24 @@ class UpdateTodoListUseCaseTest : UseCaseTest() {
     private val updateTodoList = UpdateTodoListUseCase(todoListRepository)
 
     init {
-        coEvery { todoListRepository.updateTodoList(any()) } returns true
+        coEvery { todoListRepository.updateTodoList(any(), any()) } returns true
     }
 
     @Test
-    fun `should update todo list with repository when successful returns a flow with a success resource`() =
+    fun `should update todo list with repository`() =
         runTest {
             val todoList = createTodoList()
 
-            val elements = updateTodoList.execute(todoList).toList()
+            val elements =
+                updateTodoList.execute(
+                    params = UpdateTodoListUseCase.Params(
+                        todoListId = todoList.id,
+                        title = todoList.title
+                    )
+                ).toList()
             Truth.assertThat(elements.last()).isEqualTo(true)
 
-            coVerify(exactly = 1) { todoListRepository.updateTodoList(todoList) }
+            coVerify(exactly = 1) { todoListRepository.updateTodoList(todoList.id, todoList.title) }
             confirmVerified(todoListRepository)
         }
 }

@@ -21,7 +21,17 @@ val Typography = Typography(
     h1 = TextStyle(
         fontFamily = avenirFamily,
         fontWeight = FontWeight.Bold,
+        fontSize = 32.sp
+    ),
+    h2 = TextStyle(
+        fontFamily = avenirFamily,
+        fontWeight = FontWeight.Bold,
         fontSize = 24.sp
+    ),
+    h3 = TextStyle(
+        fontFamily = avenirFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp
     ),
     body1 = TextStyle(
         fontFamily = avenirFamily,

@@ -9,8 +9,6 @@ import com.personal.todolist.data.mappers.toEntity
 import com.personal.todolist.domain.models.TodoList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -86,7 +84,7 @@ class TodoListDaoTest : DbTest() {
             val taskEntity = task.toEntity(todoListId)
 
             todoListDao.insert(taskEntity)
-            todoListDao.delete(taskEntity)
+            todoListDao.deleteTask(taskEntity.id)
             val tasks: List<TaskEntity> = todoListDao.getAll().first().flatMap { it.taskEntities }
 
             assertThat(tasks).isEmpty()
@@ -142,17 +140,41 @@ class TodoListDaoTest : DbTest() {
     fun should_update_todoList_in_database() =
         runTest {
             val todoList = createTodoList()
-            val tasks =
-                listOf(createTask(description = "Updated description of the task", complete = true))
-            val todoList2 = createTodoList(title = "Updated Title", tasks = tasks)
-
+            val newTitle = "newTitle"
 
             todoListDao.insert(todoList)
-            todoListDao.insert(todoList2)
+            todoListDao.updateTodoList(todoListId = todoList.id, title = newTitle)
 
-            val todoLists = todoListDao.getAll().first().map { it.toDomain() }
+            val todoListById = todoListDao.getById(todoList.id).first().toDomain()
 
-            assertThat(todoLists.size).isEqualTo(1)
-            assertThat(todoLists.first()).isEqualTo(todoList2)
+            assertThat(todoListById).isEqualTo(todoList.copy(title = newTitle))
+        }
+
+    @Test
+    fun should_update_task_description_in_database() =
+        runTest {
+            val task = createTask()
+            val todoList = createTodoList(tasks = listOf(task))
+
+            todoListDao.insert(todoList)
+            todoListDao.updateTaskDescription(taskId = task.id, description = "Updated description of the task")
+
+            val todoListById = todoListDao.getById(todoList.id).first().toDomain()
+
+            assertThat(todoListById.tasks.first()).isEqualTo(task.copy(description = "Updated description of the task"))
+        }
+
+    @Test
+    fun should_update_task_completion_in_database() =
+        runTest {
+            val task = createTask()
+            val todoList = createTodoList(tasks = listOf(task))
+
+            todoListDao.insert(todoList)
+            todoListDao.updateTaskCompletion(taskId = task.id, complete = true)
+
+            val todoListById = todoListDao.getById(todoList.id).first().toDomain()
+
+            assertThat(todoListById.tasks.first()).isEqualTo(task.copy(complete = true))
         }
 }

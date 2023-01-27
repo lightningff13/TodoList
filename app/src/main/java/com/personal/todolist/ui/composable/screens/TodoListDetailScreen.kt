@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Surface
@@ -19,8 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.personal.todolist.common.createTasks
 import com.personal.todolist.common.createTodoList
 import com.personal.todolist.ui.TodoListDetailState
+import com.personal.todolist.ui.composable.todolist_detail.Task
+import com.personal.todolist.ui.composable.todolist_detail.TaskToAdd
+import com.personal.todolist.ui.composable.todolist_detail.TodoListTitle
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 import com.personal.todolist.ui.viewModels.TodoListDetailViewModel
 
@@ -31,13 +38,37 @@ fun TodoListDetailScreen(viewModel: TodoListDetailViewModel = hiltViewModel()) {
         color = MaterialTheme.colors.background,
         contentColor = contentColorFor(MaterialTheme.colors.background)
     ) {
-        TodoListDetailScreenContent(uiState = todoListUiState)
+        TodoListDetailScreenContent(
+            uiState = todoListUiState,
+            onTodoListTitleChanged = { todoListId, title ->
+                viewModel.updateTodoListTitle(todoListId, title)
+            },
+            onTaskDescriptionChanged = { todoListId, taskDescription ->
+                viewModel.addTaskToTodoList(todoListId, taskDescription)
+            },
+            onTaskDescriptionUpdated = { taskId, newDescription ->
+                viewModel.updateTaskDescription(taskId, newDescription)
+            },
+            onTaskCompletionUpdated = { taskId, complete ->
+                viewModel.updateTaskCompletion(taskId, complete)
+            },
+            onRemoveTaskClicked = { taskId ->
+                viewModel.removeTask(taskId)
+            }
+        )
     }
-    
+
 }
 
 @Composable
-fun TodoListDetailScreenContent(uiState: TodoListDetailState) {
+fun TodoListDetailScreenContent(
+    uiState: TodoListDetailState,
+    onTodoListTitleChanged: (todoListId: Long, title: String) -> Unit = { _, _ -> },
+    onTaskDescriptionChanged: (Long, String) -> Unit = { _, _ -> },
+    onTaskDescriptionUpdated: (taskId: Long, newDescription: String) -> Unit = { _, _-> },
+    onTaskCompletionUpdated: (taskId: Long, complete: Boolean) -> Unit = { _, _-> },
+    onRemoveTaskClicked: (Long) -> Unit = { }
+) {
     when (uiState) {
         is TodoListDetailState.Error -> Snackbar(
             modifier = Modifier.padding(8.dp),
@@ -50,10 +81,42 @@ fun TodoListDetailScreenContent(uiState: TodoListDetailState) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = uiState.todoList.title,
-                style = MaterialTheme.typography.h1
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(15.dp)
+            ) {
+                TodoListTitle(
+                    title = uiState.todoList.title,
+                    onTodoListTitleChanged = { onTodoListTitleChanged(uiState.todoList.id, it) }
+                )
+                Divider()
+                LazyColumn {
+                    items(items = uiState.todoList.tasks) {
+                        Task(
+                            task = it,
+                            onDescriptionChanged = { newTaskDescription ->
+                                onTaskDescriptionUpdated(
+                                    it.id,
+                                    newTaskDescription
+                                )
+                            },
+                            onCompleteChanged = { newComplete ->
+                                onTaskCompletionUpdated(it.id, newComplete)
+                            },
+                            onRemoveTaskClicked = { onRemoveTaskClicked(it.id) }
+                        )
+                    }
+                    item {
+                        TaskToAdd(
+                            onValueChange = { taskDescription ->
+                                onTaskDescriptionChanged(uiState.todoList.id, taskDescription)
+                            }
+                        )
+                    }
+                }
+            }
+
         }
         TodoListDetailState.Loading -> Column(
             modifier = Modifier.fillMaxSize(),
@@ -71,7 +134,7 @@ fun TodoListDetailScreenContent(uiState: TodoListDetailState) {
 fun TodoListDetailScreenPreview() {
     TodoListTheme {
         TodoListDetailScreenContent(
-            uiState = TodoListDetailState.Success(createTodoList())
+            uiState = TodoListDetailState.Success(createTodoList(tasks = createTasks(20)))
         )
     }
 }
