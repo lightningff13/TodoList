@@ -34,8 +34,9 @@ dependencyResolutionManagement {
             library("androidx.compose.ui.tooling.preview", "androidx.compose.ui", "ui-tooling-preview").versionRef("androidx.compose")
             library("androidx.compose.material", "androidx.compose.material", "material").versionRef("androidx.compose")
             library("androidx.navigation", "androidx.navigation:navigation-compose:2.5.3")
+            library("accompanist.navigation", "com.google.accompanist:accompanist-navigation-animation:0.29.1-alpha")
 
-            bundle("compose", listOf("androidx.activity.compose", "androidx.compose.ui", "androidx.compose.ui.tooling.preview", "androidx.compose.material", "androidx.navigation"))
+            bundle("compose", listOf("androidx.activity.compose", "androidx.compose.ui", "androidx.compose.ui.tooling.preview", "androidx.compose.material", "androidx.navigation", "accompanist.navigation"))
 
             library("androidx.compose.ui.tooling", "androidx.compose.ui", "ui-tooling").versionRef("androidx.compose")
             library("androidx.compose.ui.test.manifest", "androidx.compose.ui", "ui-test-manifest").versionRef("androidx.compose")

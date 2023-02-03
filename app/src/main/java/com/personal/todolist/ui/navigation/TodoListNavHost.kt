@@ -1,22 +1,40 @@
 package com.personal.todolist.ui.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.IntSize
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.personal.todolist.ui.composable.screens.TodoListDetailScreen
 import com.personal.todolist.ui.composable.screens.TodoListsScreen
 import com.personal.todolist.ui.navigation.destinations.TodoListDetailNavigationDestination
 import com.personal.todolist.ui.navigation.destinations.TodoListsNavigationDestination
 import com.personal.todolist.ui.navigation.destinations.navigateToTodoList
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun TodoListNavHost(navController: NavHostController) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = TodoListsNavigationDestination.route
     ) {
-        composable(route = TodoListsNavigationDestination.route) {
+        composable(
+            route = TodoListsNavigationDestination.route,
+            enterTransition = {
+                expandVertically(
+                    animationSpec =
+                    spring(
+                        stiffness = Spring.StiffnessLow,
+                        visibilityThreshold = IntSize.VisibilityThreshold
+                    )
+                )
+            }
+        ) {
             TodoListsScreen(
                 onTodoListClick = { todoListId ->
                     navController.navigateToTodoList(todoListId)
@@ -25,7 +43,16 @@ fun TodoListNavHost(navController: NavHostController) {
         }
         composable(
             route = "${TodoListDetailNavigationDestination.route}/{${TodoListDetailNavigationDestination.todoListIdArg}}",
-            arguments = TodoListDetailNavigationDestination.navArguments
+            arguments = TodoListDetailNavigationDestination.navArguments,
+            enterTransition = {
+                expandVertically(
+                    animationSpec =
+                        spring(
+                            stiffness = Spring.StiffnessLow,
+                            visibilityThreshold = IntSize.VisibilityThreshold
+                        )
+                )
+            }
         ) {
             TodoListDetailScreen()
         }
