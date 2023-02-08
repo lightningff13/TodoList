@@ -1,4 +1,4 @@
-package com.personal.todolist.ui
+package com.personal.todolist.ui.viewModels
 
 import com.personal.todolist.domain.models.TodoList
 

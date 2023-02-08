@@ -7,10 +7,12 @@ import com.personal.todolist.domain.models.TodoList
 import com.personal.todolist.domain.usecase.CreateTodoListUseCase
 import com.personal.todolist.domain.usecase.DeleteTodoListUseCase
 import com.personal.todolist.domain.usecase.GetTodoListsUseCase
-import com.personal.todolist.ui.TodoListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -24,7 +26,9 @@ class TodoListsViewModel @Inject constructor(
     private val addTodoList: CreateTodoListUseCase,
     private val deleteTodoList: DeleteTodoListUseCase
 ) : ViewModel() {
-
+    private val _todoListCreated =
+        MutableSharedFlow<TodoListCreatedEvent>()
+    val todoListCreated: SharedFlow<TodoListCreatedEvent> = _todoListCreated.asSharedFlow()
 
     val todoListUiState: StateFlow<TodoListState> = getTodoLists
         .execute()
@@ -44,7 +48,15 @@ class TodoListsViewModel @Inject constructor(
 
     fun addTodoList(todoListTitle: String) {
         viewModelScope.launch {
-            addTodoList.execute(todoListTitle).collect()
+            addTodoList.execute(todoListTitle).catch {
+                _todoListCreated.emit(
+                    TodoListCreatedEvent.Error(
+                        error = it.message ?: "Unexpected error during TodoList creation"
+                    )
+                )
+            }.collect { todoListId ->
+                _todoListCreated.emit(TodoListCreatedEvent.Success(todoListId = todoListId))
+            }
         }
     }
 }

@@ -6,7 +6,6 @@ import com.personal.todolist.data.repository.FakeTodoListRepository
 import com.personal.todolist.domain.usecase.CreateTodoListUseCase
 import com.personal.todolist.domain.usecase.DeleteTodoListUseCase
 import com.personal.todolist.domain.usecase.GetTodoListsUseCase
-import com.personal.todolist.ui.TodoListState
 import com.personal.todolist.utils.createTodoList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect

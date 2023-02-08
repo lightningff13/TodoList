@@ -24,11 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.personal.todolist.common.createTasks
 import com.personal.todolist.common.createTodoList
-import com.personal.todolist.ui.TodoListDetailState
 import com.personal.todolist.ui.composable.todolist_detail.Task
 import com.personal.todolist.ui.composable.todolist_detail.TaskToAdd
 import com.personal.todolist.ui.composable.todolist_detail.TodoListTitle
 import com.personal.todolist.ui.ui.theme.TodoListTheme
+import com.personal.todolist.ui.viewModels.TodoListDetailState
 import com.personal.todolist.ui.viewModels.TodoListDetailViewModel
 
 @Composable

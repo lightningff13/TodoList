@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.personal.todolist.common.createTodoLists
 import com.personal.todolist.domain.models.TodoList
-import com.personal.todolist.ui.TodoListState
 import com.personal.todolist.ui.ui.theme.TodoListTheme
+import com.personal.todolist.ui.viewModels.TodoListState
 
 @Composable
 fun TodoListsContent(

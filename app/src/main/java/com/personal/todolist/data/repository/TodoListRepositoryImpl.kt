@@ -18,7 +18,7 @@ class TodoListRepositoryImpl @Inject constructor(
     private val todoListDao: TodoListDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : TodoListRepository {
-    override suspend fun addTodoList(todoListTitle: String, tasks: List<Task>): Boolean {
+    override suspend fun addTodoList(todoListTitle: String, tasks: List<Task>): Long {
         return withContext(ioDispatcher) {
             todoListDao.insert(
                 TodoList(title = todoListTitle, tasks = tasks)

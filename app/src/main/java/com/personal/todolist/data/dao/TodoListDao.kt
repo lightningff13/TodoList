@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.Flow
 interface TodoListDao {
 
     @Transaction
-    suspend fun insert(todoList: TodoList): Boolean {
+    suspend fun insert(todoList: TodoList): Long {
         val todoListId = insert(todoList.toEntity())
         for (task in todoList.tasks) {
             val taskEntity = task.toEntity(todoListId)
             insert(taskEntity)
         }
-        return true
+        return todoListId
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

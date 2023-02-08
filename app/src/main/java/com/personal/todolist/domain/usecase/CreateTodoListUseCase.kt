@@ -8,7 +8,7 @@ import javax.inject.Inject
 class CreateTodoListUseCase @Inject constructor(
     private val todoListRepository: TodoListRepository
 ) {
-    fun execute(params: String): Flow<Boolean> = flow {
+    fun execute(params: String): Flow<Long> = flow {
         emit(todoListRepository.addTodoList(params))
     }
 }

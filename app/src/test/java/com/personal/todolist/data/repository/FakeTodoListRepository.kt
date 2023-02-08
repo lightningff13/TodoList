@@ -14,11 +14,12 @@ class FakeTodoListRepository : TodoListRepository {
 
     private val currentTodoLists get() = todoListsFlow.replayCache.firstOrNull() ?: emptyList()
 
-    override suspend fun addTodoList(todoListTitle: String, tasks: List<Task>): Boolean =
+    override suspend fun addTodoList(todoListTitle: String, tasks: List<Task>): Long =
         currentTodoLists.let { current ->
             val todoList = TodoList(title = todoListTitle, tasks = tasks)
             val newTodoLists = current + todoList
             todoListsFlow.tryEmit(newTodoLists)
+            todoList.id
         }
 
     override suspend fun updateTodoList(todoListId: Long, title: String): Boolean =

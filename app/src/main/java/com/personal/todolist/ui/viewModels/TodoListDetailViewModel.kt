@@ -10,7 +10,6 @@ import com.personal.todolist.domain.usecase.GetTodoListByIdUseCase
 import com.personal.todolist.domain.usecase.UpdateTaskCompletionUseCase
 import com.personal.todolist.domain.usecase.UpdateTaskDescriptionUseCase
 import com.personal.todolist.domain.usecase.UpdateTodoListUseCase
-import com.personal.todolist.ui.TodoListDetailState
 import com.personal.todolist.ui.navigation.destinations.TodoListDetailNavigationDestination.todoListIdArg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

@@ -5,7 +5,7 @@ import com.personal.todolist.domain.models.TodoList
 import kotlinx.coroutines.flow.Flow
 
 interface TodoListRepository {
-    suspend fun addTodoList(todoListTitle: String, tasks: List<Task> = emptyList()) : Boolean
+    suspend fun addTodoList(todoListTitle: String, tasks: List<Task> = emptyList()) : Long
     suspend fun updateTodoList(todoListId:Long, title: String) : Boolean
     suspend fun deleteTodoList(todoList: TodoList) : Boolean
     suspend fun addTaskToTodoList(todoListId: Long, taskDescription: String): Boolean
