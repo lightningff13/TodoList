@@ -31,6 +31,7 @@ fun TodoListsScreen(
     val todoListCreatedEvent by viewModel.todoListCreated.collectAsStateWithLifecycle(
         initialValue = TodoListCreatedEvent.Initial,
         lifecycle = lifecycle)
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
 
     val onDeleteTodoList: (TodoList) -> Unit = {
         viewModel.deleteTodoList(it)
@@ -50,6 +51,7 @@ fun TodoListsScreen(
 
     TodoListsScreenContent(
         uiState = todoListUiState,
+        isLoading = isLoading,
         onTodoListClick = onTodoListClick,
         onDeleteTodoList = onDeleteTodoList,
         onAddClick = onAddTodoList
@@ -60,6 +62,7 @@ fun TodoListsScreen(
 @Composable
 fun TodoListsScreenContent(
     uiState: TodoListState,
+    isLoading: Boolean = false,
     onTodoListClick: (Long) -> Unit = {},
     onDeleteTodoList: (TodoList) -> Unit = {},
     onAddClick: (String) -> Unit = {}
@@ -74,6 +77,7 @@ fun TodoListsScreenContent(
     ) {
         TodoListsContent(
             todoListUiState = uiState,
+            isLoading = isLoading,
             onTodoListClick = onTodoListClick,
             onDeleteTodoList = onDeleteTodoList
         )

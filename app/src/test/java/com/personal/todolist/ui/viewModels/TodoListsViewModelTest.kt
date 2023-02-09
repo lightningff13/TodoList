@@ -41,7 +41,7 @@ class TodoListsViewModelTest {
                 viewModel.todoListUiState.collect()
             }
 
-            assertThat(viewModel.todoListUiState.value).isEqualTo(TodoListState.Loading)
+            assertThat(viewModel.todoListUiState.value).isEqualTo(TodoListState.Initial)
 
             fakeTodoListRepository.sendTodoLists(listOf(createTodoList()))
             assertThat(viewModel.todoListUiState.value).isEqualTo(

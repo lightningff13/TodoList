@@ -16,7 +16,7 @@ class CreateTodoListUseCaseTest : UseCaseTest() {
     private val createTodoList = CreateTodoListUseCase(todoListRepository)
 
     init {
-        coEvery { todoListRepository.addTodoList(any()) } returns true
+        coEvery { todoListRepository.addTodoList(any()) } returns 1L
     }
 
     @Test
@@ -25,7 +25,7 @@ class CreateTodoListUseCaseTest : UseCaseTest() {
             val todoList = createTodoList()
 
             val elements = createTodoList.execute(todoList.title).toList()
-            assertThat(elements.last()).isEqualTo(true)
+            assertThat(elements.last()).isEqualTo(1L)
 
             coVerify(exactly = 1) { todoListRepository.addTodoList(todoList.title) }
             confirmVerified(todoListRepository)

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
@@ -18,12 +17,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.personal.todolist.common.createTodoLists
 import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.ui.composable.common.ShimmerContent
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 import com.personal.todolist.ui.viewModels.TodoListState
 
 @Composable
 fun TodoListsContent(
     todoListUiState: TodoListState,
+    isLoading: Boolean = false,
     onTodoListClick: (Long) -> Unit = {},
     onDeleteTodoList: (TodoList) -> Unit = {}
 ) {
@@ -36,13 +37,7 @@ fun TodoListsContent(
                 Text(text = todoListUiState.error)
             }
         }
-        TodoListState.Loading -> Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            CircularProgressIndicator()
-        }
+        TodoListState.Initial -> Unit
         is TodoListState.Success ->
             if (todoListUiState.todoLists.isEmpty()) {
                 Column(
@@ -55,23 +50,23 @@ fun TodoListsContent(
             } else {
                 LazyColumn(modifier = Modifier.padding(10.dp)) {
                     items(items = todoListUiState.todoLists) {
-                        TodoListSummary(
-                            todoListTitle = it.title,
-                            taskList = it.tasks,
-                            onTodoListClick = { onTodoListClick(it.id) },
-                            onDeleteClick = { onDeleteTodoList(it) }
+                        ShimmerContent(
+                            isLoading = isLoading,
+                            contentDuringLoading = {
+                               ShimmerTodoListSummary(modifier = Modifier.padding(10.dp))
+                            },
+                            contentAfterLoading = {
+                                TodoListSummary(
+                                    todoListTitle = it.title,
+                                    taskList = it.tasks,
+                                    onTodoListClick = { onTodoListClick(it.id) },
+                                    onDeleteClick = { onDeleteTodoList(it) }
+                                )
+                            },
                         )
                     }
                 }
             }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TodoListsLoadingPreview() {
-    TodoListTheme {
-        TodoListsContent(TodoListState.Loading)
     }
 }
 

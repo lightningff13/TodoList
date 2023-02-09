@@ -19,7 +19,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class TodoListRepositoryTest : RepositoryTest() {
     init {
-        coEvery { todoListDao.insert(any<TodoList>()) } returns true
+        coEvery { todoListDao.insert(any<TodoList>()) } returns 1L
         coEvery { todoListDao.insert(any<TaskEntity>()) } returns 1L
         coEvery { todoListDao.updateTodoList(any(), any()) } returns 1
         coEvery { todoListDao.updateTaskDescription(any(), any()) } returns 1
