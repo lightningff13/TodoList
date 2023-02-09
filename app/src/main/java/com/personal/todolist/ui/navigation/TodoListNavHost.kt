@@ -21,19 +21,19 @@ import com.personal.todolist.ui.navigation.destinations.navigateToTodoList
 fun TodoListNavHost(navController: NavHostController) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = TodoListsNavigationDestination.route
+        startDestination = TodoListsNavigationDestination.route,
+        enterTransition = {
+            expandVertically(
+                animationSpec =
+                spring(
+                    stiffness = Spring.StiffnessLow,
+                    visibilityThreshold = IntSize.VisibilityThreshold
+                )
+            )
+        }
     ) {
         composable(
-            route = TodoListsNavigationDestination.route,
-            enterTransition = {
-                expandVertically(
-                    animationSpec =
-                    spring(
-                        stiffness = Spring.StiffnessLow,
-                        visibilityThreshold = IntSize.VisibilityThreshold
-                    )
-                )
-            }
+            route = TodoListsNavigationDestination.route
         ) {
             TodoListsScreen(
                 onTodoListClick = { todoListId ->
@@ -43,16 +43,7 @@ fun TodoListNavHost(navController: NavHostController) {
         }
         composable(
             route = "${TodoListDetailNavigationDestination.route}/{${TodoListDetailNavigationDestination.todoListIdArg}}",
-            arguments = TodoListDetailNavigationDestination.navArguments,
-            enterTransition = {
-                expandVertically(
-                    animationSpec =
-                        spring(
-                            stiffness = Spring.StiffnessLow,
-                            visibilityThreshold = IntSize.VisibilityThreshold
-                        )
-                )
-            }
+            arguments = TodoListDetailNavigationDestination.navArguments
         ) {
             TodoListDetailScreen()
         }
