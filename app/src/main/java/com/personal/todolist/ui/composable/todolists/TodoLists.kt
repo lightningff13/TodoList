@@ -3,6 +3,7 @@ package com.personal.todolist.ui.composable.todolists
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,7 +49,10 @@ fun TodoListsContent(
                     Text("No todolists added yet")
                 }
             } else {
-                LazyColumn(modifier = Modifier.padding(10.dp)) {
+                LazyColumn(
+                    modifier = Modifier.padding(10.dp),
+                    contentPadding = PaddingValues(bottom = 75.dp)
+                ) {
                     items(items = todoListUiState.todoLists) {
                         ShimmerContent(
                             isLoading = isLoading,
