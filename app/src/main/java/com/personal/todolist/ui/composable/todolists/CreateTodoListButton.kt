@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +35,8 @@ import com.personal.todolist.ui.ui.theme.UnevenBorderShapes
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateTodoListButton(
-    onCreateClick: (String) -> Unit = {}
+    onCreateClick: (String) -> Unit = {},
+    onCalculateFabHeight: (Int) -> Unit = {}
 ) {
     val initialTextFieldValue = ""
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -44,7 +46,15 @@ fun CreateTodoListButton(
             textState.text.isNotEmpty()
         }
     }
+    var fabHeight by remember {
+        mutableStateOf(0)
+    }
+
     Surface(
+        modifier = Modifier.onGloballyPositioned {
+            fabHeight = it.size.height
+            onCalculateFabHeight(fabHeight)
+        },
         shape = UnevenBorderShapes.small,
         color = MaterialTheme.colors.secondary,
         elevation = 10.dp

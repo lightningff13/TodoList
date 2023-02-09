@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.personal.todolist.common.createTodoLists
 import com.personal.todolist.domain.models.TodoList
@@ -27,7 +28,8 @@ fun TodoListsContent(
     todoListUiState: TodoListState,
     isLoading: Boolean = false,
     onTodoListClick: (Long) -> Unit = {},
-    onDeleteTodoList: (TodoList) -> Unit = {}
+    onDeleteTodoList: (TodoList) -> Unit = {},
+    fabHeightInDp: Dp = 0.dp
 ) {
     when (todoListUiState) {
         is TodoListState.Error -> {
@@ -51,7 +53,7 @@ fun TodoListsContent(
             } else {
                 LazyColumn(
                     modifier = Modifier.padding(10.dp),
-                    contentPadding = PaddingValues(bottom = 75.dp)
+                    contentPadding = PaddingValues(bottom = fabHeightInDp + 10.dp)
                 ) {
                     items(items = todoListUiState.todoLists) {
                         ShimmerContent(
