@@ -65,8 +65,8 @@ fun TodoListDetailScreenContent(
     uiState: TodoListDetailState,
     onTodoListTitleChanged: (todoListId: Long, title: String) -> Unit = { _, _ -> },
     onTaskDescriptionChanged: (Long, String) -> Unit = { _, _ -> },
-    onTaskDescriptionUpdated: (taskId: Long, newDescription: String) -> Unit = { _, _-> },
-    onTaskCompletionUpdated: (taskId: Long, complete: Boolean) -> Unit = { _, _-> },
+    onTaskDescriptionUpdated: (taskId: Long, newDescription: String) -> Unit = { _, _ -> },
+    onTaskCompletionUpdated: (taskId: Long, complete: Boolean) -> Unit = { _, _ -> },
     onRemoveTaskClicked: (Long) -> Unit = { }
 ) {
     when (uiState) {
@@ -91,8 +91,10 @@ fun TodoListDetailScreenContent(
                     onTodoListTitleChanged = { onTodoListTitleChanged(uiState.todoList.id, it) }
                 )
                 Divider()
+                val unCompletedTasks = uiState.todoList.tasks.filterNot { it.complete }
+                val completedTasks = uiState.todoList.tasks.filter { it.complete }
                 LazyColumn {
-                    items(items = uiState.todoList.tasks) {
+                    items(items = unCompletedTasks) {
                         Task(
                             task = it,
                             onDescriptionChanged = { newTaskDescription ->
@@ -107,6 +109,7 @@ fun TodoListDetailScreenContent(
                             onRemoveTaskClicked = { onRemoveTaskClicked(it.id) }
                         )
                     }
+
                     item {
                         TaskToAdd(
                             onValueChange = { taskDescription ->
@@ -114,6 +117,25 @@ fun TodoListDetailScreenContent(
                             }
                         )
                     }
+                    if (completedTasks.any() && unCompletedTasks.any()) {
+                        item { Divider() }
+                    }
+                    items(items = completedTasks) {
+                        Task(
+                            task = it,
+                            onDescriptionChanged = { newTaskDescription ->
+                                onTaskDescriptionUpdated(
+                                    it.id,
+                                    newTaskDescription
+                                )
+                            },
+                            onCompleteChanged = { newComplete ->
+                                onTaskCompletionUpdated(it.id, newComplete)
+                            },
+                            onRemoveTaskClicked = { onRemoveTaskClicked(it.id) }
+                        )
+                    }
+
                 }
             }
 
