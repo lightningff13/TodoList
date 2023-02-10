@@ -3,10 +3,14 @@ package com.personal.todolist.ui.composable.todolist_detail
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -23,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.personal.todolist.common.createTask
 import com.personal.todolist.domain.models.Task
@@ -34,7 +39,8 @@ fun Task(
     task: Task,
     onDescriptionChanged: (String) -> Unit = { },
     onCompleteChanged: (Boolean) -> Unit = { },
-    onRemoveTaskClicked: () -> Unit = {}
+    onRemoveTaskClicked: () -> Unit = {},
+    fieldsEnabled: Boolean = true
 ) {
     var taskSelected by remember {
         mutableStateOf(task.complete)
@@ -53,6 +59,14 @@ fun Task(
                 taskSelected = !taskSelected
                 onCompleteChanged(taskSelected)
             },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = LocalContentColor.current.copy(
+                    if (!fieldsEnabled)
+                        ContentAlpha.disabled
+                    else
+                        LocalContentAlpha.current
+                )
+            )
         )
         TextField(
             modifier = Modifier.weight(7.0F),
@@ -61,8 +75,20 @@ fun Task(
                 textState = it
                 onDescriptionChanged(it.text)
             },
-            textStyle = MaterialTheme.typography.h3,
+            textStyle = MaterialTheme.typography.h3.copy(
+                textDecoration =
+                if (!fieldsEnabled)
+                    TextDecoration.LineThrough
+                else
+                    TextDecoration.None
+            ),
             colors = TextFieldDefaults.textFieldColors(
+                textColor = LocalContentColor.current.copy(
+                    if (!fieldsEnabled)
+                        ContentAlpha.disabled
+                    else
+                        LocalContentAlpha.current
+                ),
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -125,9 +151,18 @@ fun TaskToAdd(
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun TaskPreview() {
+fun TaskUncompletedPreview() {
     TodoListTheme {
         Task(createTask())
+    }
+}
+
+@Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun TaskCompletedPreview() {
+    TodoListTheme {
+        Task(createTask(complete = true), fieldsEnabled = false)
     }
 }
 

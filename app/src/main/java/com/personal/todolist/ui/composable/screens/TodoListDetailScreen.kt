@@ -64,11 +64,27 @@ fun TodoListDetailScreen(viewModel: TodoListDetailViewModel = hiltViewModel()) {
 fun TodoListDetailScreenContent(
     uiState: TodoListDetailState,
     onTodoListTitleChanged: (todoListId: Long, title: String) -> Unit = { _, _ -> },
-    onTaskDescriptionChanged: (Long, String) -> Unit = { _, _ -> },
+    onTaskDescriptionChanged: (taskId: Long, newDescription: String) -> Unit = { _, _ -> },
     onTaskDescriptionUpdated: (taskId: Long, newDescription: String) -> Unit = { _, _ -> },
     onTaskCompletionUpdated: (taskId: Long, complete: Boolean) -> Unit = { _, _ -> },
-    onRemoveTaskClicked: (Long) -> Unit = { }
+    onRemoveTaskClicked: (taskId: Long) -> Unit = { }
 ) {
+    val onDescriptionChanged = { taskId: Long ->
+        { newTaskDescription: String ->
+            onTaskDescriptionUpdated(taskId, newTaskDescription)
+        }
+    }
+
+    val onCompleteChanged = { taskId: Long ->
+        { newComplete: Boolean ->
+            onTaskCompletionUpdated(taskId, newComplete)
+        }
+    }
+
+    val onRemoveClicked = { taskId: Long ->
+        { onRemoveTaskClicked(taskId) }
+    }
+
     when (uiState) {
         is TodoListDetailState.Error -> Snackbar(
             modifier = Modifier.padding(8.dp),
@@ -94,19 +110,12 @@ fun TodoListDetailScreenContent(
                 val unCompletedTasks = uiState.todoList.tasks.filterNot { it.complete }
                 val completedTasks = uiState.todoList.tasks.filter { it.complete }
                 LazyColumn {
-                    items(items = unCompletedTasks) {
+                    items(items = unCompletedTasks, key = { it.id }) {
                         Task(
                             task = it,
-                            onDescriptionChanged = { newTaskDescription ->
-                                onTaskDescriptionUpdated(
-                                    it.id,
-                                    newTaskDescription
-                                )
-                            },
-                            onCompleteChanged = { newComplete ->
-                                onTaskCompletionUpdated(it.id, newComplete)
-                            },
-                            onRemoveTaskClicked = { onRemoveTaskClicked(it.id) }
+                            onDescriptionChanged = onDescriptionChanged(it.id),
+                            onCompleteChanged = onCompleteChanged(it.id),
+                            onRemoveTaskClicked = onRemoveClicked(it.id)
                         )
                     }
 
@@ -120,19 +129,13 @@ fun TodoListDetailScreenContent(
                     if (completedTasks.any() && unCompletedTasks.any()) {
                         item { Divider() }
                     }
-                    items(items = completedTasks) {
+                    items(items = completedTasks, key = { it.id }) {
                         Task(
                             task = it,
-                            onDescriptionChanged = { newTaskDescription ->
-                                onTaskDescriptionUpdated(
-                                    it.id,
-                                    newTaskDescription
-                                )
-                            },
-                            onCompleteChanged = { newComplete ->
-                                onTaskCompletionUpdated(it.id, newComplete)
-                            },
-                            onRemoveTaskClicked = { onRemoveTaskClicked(it.id) }
+                            fieldsEnabled = false,
+                            onDescriptionChanged = onDescriptionChanged(it.id),
+                            onCompleteChanged = onCompleteChanged(it.id),
+                            onRemoveTaskClicked = onRemoveClicked(it.id)
                         )
                     }
 
