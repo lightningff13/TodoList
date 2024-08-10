@@ -6,8 +6,7 @@ plugins {
 }
 
 android {
-    compileSdk = 33
-    buildToolsVersion = "30.0.3"
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.personal.todolist"
@@ -41,11 +40,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    namespace = "com.personal.todolist"
 }
 
 dependencies {
