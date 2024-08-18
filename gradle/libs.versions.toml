@@ -12,6 +12,7 @@ coroutines = "1.6.4"
 hilt = "2.49"
 truth = "1.1"
 core-ktx = "1.9.0"
+ksp = "2.0.10-1.0.24"
 
 [libraries]
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -54,6 +55,7 @@ androidx-compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-tes
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin_version" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin_version" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 
 [bundles]
 compose = ["androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-material", "androidx-navigation", "accompanist-navigation"]
