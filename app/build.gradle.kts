@@ -5,8 +5,11 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.detekt)
 }
-
+detekt {
+    ignoreFailures = true
+}
 android {
     compileSdk = 34
 
