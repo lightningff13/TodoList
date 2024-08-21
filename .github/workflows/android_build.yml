@@ -2,7 +2,7 @@ name: Android Build
 
 on:
   push:
-    branches: [*]
+    branches: [infra/add_ci]
 
 jobs:
   build:
@@ -31,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v4.3.6
         with:
           name: TodoList.apk
-          path: app/build/outputs/debug/apk/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
 
