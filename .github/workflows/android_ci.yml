@@ -42,12 +42,12 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: test-results
           path: app/build/reports/tests/testDebugUnitTest/
       - name: Cache Gradle packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4.0.2
         with:
           path: |
             ~/.gradle/caches
