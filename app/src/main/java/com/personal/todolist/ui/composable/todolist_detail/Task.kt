@@ -1,8 +1,11 @@
 package com.personal.todolist.ui.composable.todolist_detail
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -28,6 +31,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.personal.todolist.common.createTask
 import com.personal.todolist.common.models.Task
 import com.personal.todolist.ui.ui.theme.KashmirBlue
@@ -110,8 +114,6 @@ fun Task(
 fun TaskToAdd(
     onValueChange: (String) -> Unit = {}
 ) {
-    val textState by remember { mutableStateOf(TextFieldValue(text = "")) }
-    val keyboardController = LocalSoftwareKeyboardController.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -122,26 +124,13 @@ fun TaskToAdd(
             selected = false,
             onClick = null
         )
-        TextField(
-            modifier = Modifier.weight(8.0F),
-            value = textState,
-            onValueChange = {
-                onValueChange(it.text)
-                keyboardController?.hide()
-            },
-            textStyle = MaterialTheme.typography.h3.copy(color = KashmirBlue),
-            placeholder = {
-                Text(
-                    text = "Add an item...",
-                    style = MaterialTheme.typography.h3.copy(color = KashmirBlue)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+        Text(
+            modifier = Modifier.weight(8.0F).padding(horizontal = 15.dp, vertical = 15.dp)
+                .clickable {
+                    onValueChange("")
+                },
+            text = "Add an item...",
+            style = MaterialTheme.typography.h3.copy(color = KashmirBlue)
         )
     }
 }
