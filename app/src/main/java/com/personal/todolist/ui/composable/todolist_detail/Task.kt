@@ -22,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -30,7 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.personal.todolist.common.createTask
-import com.personal.todolist.domain.models.Task
+import com.personal.todolist.common.models.Task
 import com.personal.todolist.ui.ui.theme.KashmirBlue
 import com.personal.todolist.ui.ui.theme.TodoListTheme
 
@@ -107,7 +106,6 @@ fun Task(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TaskToAdd(
     onValueChange: (String) -> Unit = {}

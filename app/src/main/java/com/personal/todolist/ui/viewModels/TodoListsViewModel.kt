@@ -3,7 +3,7 @@ package com.personal.todolist.ui.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.personal.todolist.common.STOP_TIMEOUT_MILLIS
-import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.common.models.TodoList
 import com.personal.todolist.domain.usecase.CreateTodoListUseCase
 import com.personal.todolist.domain.usecase.DeleteTodoListUseCase
 import com.personal.todolist.domain.usecase.GetTodoListsUseCase
