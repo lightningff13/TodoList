@@ -27,7 +27,7 @@ class TodoListDetailViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val fakeTodoListRepository = FakeTodoListRepository()
-    private val savedStateHandle = SavedStateHandle().apply { set(TodoListDetailNavigationDestination.todoListIdArg, 1) }
+    private val savedStateHandle = SavedStateHandle().apply { set(TodoListDetailNavigationDestination.todoListIdArg, 0) }
     private val getTodoListByIdUseCase = GetTodoListByIdUseCase(fakeTodoListRepository)
     private val updateTodoListUseCase = UpdateTodoListUseCase(fakeTodoListRepository)
     private val addTaskToTodoListUseCase = AddTaskToTodoListUseCase(fakeTodoListRepository)
@@ -60,7 +60,7 @@ class TodoListDetailViewModelTest {
 
             Truth.assertThat(viewModel.todoListDetailUiState.value).isEqualTo(TodoListDetailState.Loading)
 
-            val todoList = createTodoList()
+            val todoList = createTodoList(id = 0)
             fakeTodoListRepository.addTodoList(todoListTitle = todoList.title, tasks = todoList.tasks)
             Truth.assertThat(viewModel.todoListDetailUiState.value).isEqualTo(
                 TodoListDetailState.Success(

@@ -1,7 +1,9 @@
 package com.personal.todolist.data.repository
 
+import com.personal.todolist.common.models.TodoList
 import com.personal.todolist.data.entities.TaskEntity
 import com.personal.todolist.data.mappers.toEntity
+import com.personal.todolist.domain.repository.TodoListRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -14,12 +16,12 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class TodoListRepositoryTest : RepositoryTest() {
     init {
-        coEvery { todoListDao.insert(any<com.personal.todolist.common.models.TodoList>()) } returns 1L
+        coEvery { todoListDao.insert(any<TodoList>()) } returns 1L
         coEvery { todoListDao.insert(any<TaskEntity>()) } returns 1L
         coEvery { todoListDao.updateTodoList(any(), any()) } returns 1
         coEvery { todoListDao.updateTaskDescription(any(), any()) } returns 1
         coEvery { todoListDao.updateTaskCompletion(any(), any()) } returns 1
-        coEvery { todoListDao.delete(any<com.personal.todolist.common.models.TodoList>()) } returns true
+        coEvery { todoListDao.delete(any<TodoList>()) } returns true
         coEvery { todoListDao.deleteTask(any()) } returns 1
         coEvery { todoListDao.getById(any()) } returns flowOf(createTodoListWithTasks())
         coEvery { todoListDao.getAll() } returns flowOf(listOf(createTodoListWithTasks()))
@@ -27,12 +29,12 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should add todo list with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
 
-        val todoList = createTodoList()
+        val todoList = createTodoList(id = 0)
 
         todoListRepository.addTodoList(todoList.title, todoList.tasks)
 
@@ -42,7 +44,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should update todo list with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
@@ -57,7 +59,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should delete todo list with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
@@ -71,7 +73,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should get todo list by id with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
@@ -85,7 +87,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should get list of todo list with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
@@ -97,12 +99,12 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should add task to todo list with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
         val todoList = createTodoList()
-        val task = createTask()
+        val task = createTask(id = 0)
 
         todoListRepository.addTaskToTodoList(
             todoListId = todoList.id,
@@ -115,7 +117,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should update task description with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
@@ -138,7 +140,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should update task completion with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
@@ -161,7 +163,7 @@ class TodoListRepositoryTest : RepositoryTest() {
 
     @Test
     fun `should delete task with dao`() = runTest {
-        val todoListRepository: com.personal.todolist.domain.repository.TodoListRepository = TodoListRepositoryImpl(
+        val todoListRepository: TodoListRepository = TodoListRepositoryImpl(
             todoListDao = todoListDao,
             ioDispatcher = StandardTestDispatcher(testScheduler)
         )
