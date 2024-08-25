@@ -48,6 +48,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":common"))
+
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.bundles.compose)
@@ -59,7 +63,6 @@ dependencies {
 
     debugImplementation(libs.bundles.compose.debug)
 
-    //Room + Kotlin Extensions and Coroutines support
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
 
@@ -67,6 +70,7 @@ dependencies {
     implementation(libs.bundles.hilt)
     kapt(libs.hilt.android.compiler)
 
+    testImplementation(testFixtures(project(":data")))
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.android.test)
 }

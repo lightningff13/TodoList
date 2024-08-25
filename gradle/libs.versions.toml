@@ -1,6 +1,6 @@
 [versions]
 gradle = "8.5.2"
-hilt-android-gradle-plugin = "2.42"
+hilt-android-gradle-plugin = "2.49"
 kotlin-gradle-plugin = "1.7.20"
 kotlin_version = "2.0.0"
 androidx-compose = "1.6.8"
@@ -15,6 +15,10 @@ truth = "1.1"
 core-ktx = "1.13.1"
 ksp = "2.0.10-1.0.24"
 detekt = "1.23.3"
+agp = "8.5.2"
+junit = "4.13.2"
+appcompat = "1.7.0"
+jetbrains-kotlin-jvm = "2.0.0"
 
 [libraries]
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -52,6 +56,8 @@ android-arch-core-test = { module = "android.arch.core:core-testing", version = 
 junit = { module = "androidx.test.ext:junit", version = "1.2.1" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version = "3.6.1" }
 androidx-compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-compose" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin_version" }
@@ -59,6 +65,8 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt"}
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrains-kotlin-jvm" }
 
 [bundles]
 compose = ["androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-material", "androidx-navigation"]

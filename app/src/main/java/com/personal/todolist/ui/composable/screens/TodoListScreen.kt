@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.personal.todolist.common.createTodoLists
-import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.common.models.TodoList
 import com.personal.todolist.ui.composable.todolists.CreateTodoListButton
 import com.personal.todolist.ui.composable.todolists.TodoListsContent
 import com.personal.todolist.ui.ui.theme.TodoListTheme

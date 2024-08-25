@@ -1,7 +1,7 @@
 package com.personal.todolist.common
 
-import com.personal.todolist.domain.models.Task
-import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.common.models.Task
+import com.personal.todolist.common.models.TodoList
 
 fun createTodoLists(size: Int): List<TodoList> {
     val todoLists = mutableListOf<TodoList>()

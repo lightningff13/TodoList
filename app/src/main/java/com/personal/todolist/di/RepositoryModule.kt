@@ -2,6 +2,7 @@ package com.personal.todolist.di
 
 import com.personal.todolist.data.dao.TodoListDao
 import com.personal.todolist.data.repository.TodoListRepositoryImpl
+import com.personal.todolist.dispatchers.IoDispatcher
 import com.personal.todolist.domain.repository.TodoListRepository
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,10 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun providesTodoListRepository(todoListDao: TodoListDao, @IoDispatcher ioDispatcher: CoroutineDispatcher) : TodoListRepository {
+    fun providesTodoListRepository(
+        todoListDao: TodoListDao,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): TodoListRepository {
         return TodoListRepositoryImpl(todoListDao, ioDispatcher)
     }
 }

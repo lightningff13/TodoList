@@ -3,15 +3,15 @@ package com.personal.todolist.ui.viewModels
 import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth
 import com.personal.todolist.MainDispatcherRule
+import com.personal.todolist.common.createTodoList
 import com.personal.todolist.data.repository.FakeTodoListRepository
+import com.personal.todolist.ui.navigation.destinations.TodoListDetailNavigationDestination
 import com.personal.todolist.domain.usecase.AddTaskToTodoListUseCase
 import com.personal.todolist.domain.usecase.DeleteTaskUseCase
 import com.personal.todolist.domain.usecase.GetTodoListByIdUseCase
 import com.personal.todolist.domain.usecase.UpdateTaskCompletionUseCase
 import com.personal.todolist.domain.usecase.UpdateTaskDescriptionUseCase
 import com.personal.todolist.domain.usecase.UpdateTodoListUseCase
-import com.personal.todolist.ui.navigation.destinations.TodoListDetailNavigationDestination
-import com.personal.todolist.utils.createTodoList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -60,7 +60,7 @@ class TodoListDetailViewModelTest {
 
             Truth.assertThat(viewModel.todoListDetailUiState.value).isEqualTo(TodoListDetailState.Loading)
 
-            val todoList = createTodoList()
+            val todoList = createTodoList(id = 0)
             fakeTodoListRepository.addTodoList(todoListTitle = todoList.title, tasks = todoList.tasks)
             Truth.assertThat(viewModel.todoListDetailUiState.value).isEqualTo(
                 TodoListDetailState.Success(

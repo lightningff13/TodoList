@@ -1,6 +1,6 @@
 package com.personal.todolist.ui.viewModels
 
-import com.personal.todolist.domain.models.TodoList
+import com.personal.todolist.common.models.TodoList
 
 sealed class TodoListDetailState {
     object Loading : TodoListDetailState()
