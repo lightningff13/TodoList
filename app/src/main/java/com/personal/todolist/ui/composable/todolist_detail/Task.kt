@@ -20,12 +20,15 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.TextFieldValue
@@ -43,13 +46,23 @@ fun Task(
     onDescriptionChanged: (String) -> Unit = { },
     onCompleteChanged: (Boolean) -> Unit = { },
     onRemoveTaskClicked: () -> Unit = {},
-    fieldsEnabled: Boolean = true
+    fieldsEnabled: Boolean = true,
+    requestFocus: Boolean = false,
+    onFocusRequested: () -> Unit = {}
 ) {
     var taskSelected by remember {
         mutableStateOf(task.complete)
     }
     val initialTextFieldValue = task.description
     var textState by remember { mutableStateOf(TextFieldValue(text = initialTextFieldValue)) }
+
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(key1 = requestFocus) {
+        if (requestFocus) {
+            focusRequester.requestFocus()
+            onFocusRequested()
+        }
+    }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -72,7 +85,7 @@ fun Task(
             )
         )
         TextField(
-            modifier = Modifier.weight(7.0F),
+            modifier = Modifier.weight(7.0F).focusRequester(focusRequester),
             value = textState,
             onValueChange = {
                 textState = it
