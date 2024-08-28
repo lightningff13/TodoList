@@ -5,7 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -30,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,7 +46,8 @@ fun Task(
     task: Task,
     onDescriptionChanged: (String) -> Unit = { },
     onCompleteChanged: (Boolean) -> Unit = { },
-    onRemoveTaskClicked: () -> Unit = {},
+    onRemoveTaskClicked: () -> Unit = { },
+    onImeActionDone: (String) -> Unit = { },
     fieldsEnabled: Boolean = true,
     requestFocus: Boolean = false,
     onFocusRequested: () -> Unit = {}
@@ -86,7 +88,16 @@ fun Task(
         )
         TextField(
             modifier = Modifier.weight(7.0F).focusRequester(focusRequester),
+            singleLine = true,
             value = textState,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onImeActionDone("")
+                }
+            ),
             onValueChange = {
                 textState = it
                 onDescriptionChanged(it.text)
