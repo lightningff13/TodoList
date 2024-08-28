@@ -19,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +44,7 @@ import com.personal.todolist.ui.ui.theme.TodoListTheme
 
 @Composable
 fun Task(
+    modifier: Modifier = Modifier,
     task: Task,
     onDescriptionChanged: (String) -> Unit = { },
     onCompleteChanged: (Boolean) -> Unit = { },
@@ -67,7 +69,7 @@ fun Task(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
@@ -142,11 +144,10 @@ fun TaskToAdd(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RadioButton(
+        Icon(
             modifier = Modifier.weight(1.0F),
-            enabled = false,
-            selected = false,
-            onClick = null
+            imageVector = Icons.Filled.Add,
+            contentDescription = "Add"
         )
         Text(
             modifier = Modifier.weight(8.0F).padding(horizontal = 15.dp, vertical = 15.dp)
@@ -164,7 +165,7 @@ fun TaskToAdd(
 @Composable
 fun TaskUncompletedPreview() {
     TodoListTheme {
-        Task(createTask())
+        Task(task = createTask())
     }
 }
 
@@ -173,7 +174,7 @@ fun TaskUncompletedPreview() {
 @Composable
 fun TaskCompletedPreview() {
     TodoListTheme {
-        Task(createTask(complete = true), fieldsEnabled = false)
+        Task(task = createTask(complete = true), fieldsEnabled = false)
     }
 }
 
