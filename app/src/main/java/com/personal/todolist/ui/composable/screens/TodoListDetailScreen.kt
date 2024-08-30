@@ -15,7 +15,12 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -92,57 +97,16 @@ fun TodoListDetailScreenContent(
         ) {
             Text(text = uiState.error)
         }
-        is TodoListDetailState.Success -> Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(15.dp)
-            ) {
-                TodoListTitle(
-                    title = uiState.todoList.title,
-                    onTodoListTitleChanged = { onTodoListTitleChanged(uiState.todoList.id, it) }
-                )
-                Divider()
-                val unCompletedTasks = uiState.todoList.tasks.filterNot { it.complete }
-                val completedTasks = uiState.todoList.tasks.filter { it.complete }
-                LazyColumn {
-                    items(items = unCompletedTasks, key = { it.id }) {
-                        Task(
-                            task = it,
-                            onDescriptionChanged = onDescriptionChanged(it.id),
-                            onCompleteChanged = onCompleteChanged(it.id),
-                            onRemoveTaskClicked = onRemoveClicked(it.id)
-                        )
-                    }
 
-                    item {
-                        TaskToAdd(
-                            onValueChange = { taskDescription ->
-                                onTaskDescriptionChanged(uiState.todoList.id, taskDescription)
-                            }
-                        )
-                    }
-                    if (completedTasks.any() && unCompletedTasks.any()) {
-                        item { Divider() }
-                    }
-                    items(items = completedTasks, key = { it.id }) {
-                        Task(
-                            task = it,
-                            fieldsEnabled = false,
-                            onDescriptionChanged = onDescriptionChanged(it.id),
-                            onCompleteChanged = onCompleteChanged(it.id),
-                            onRemoveTaskClicked = onRemoveClicked(it.id)
-                        )
-                    }
+        is TodoListDetailState.Success -> TaskList(
+            uiState,
+            onTodoListTitleChanged,
+            onDescriptionChanged,
+            onCompleteChanged,
+            onRemoveClicked,
+            onTaskDescriptionChanged
+        )
 
-                }
-            }
-
-        }
         TodoListDetailState.Loading -> Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -150,6 +114,84 @@ fun TodoListDetailScreenContent(
         ) {
             CircularProgressIndicator()
         }
+    }
+}
+
+@Composable
+private fun TaskList(
+    uiState: TodoListDetailState.Success,
+    onTodoListTitleChanged: (todoListId: Long, title: String) -> Unit,
+    onDescriptionChanged: (Long) -> (String) -> Unit,
+    onCompleteChanged: (Long) -> (Boolean) -> Unit,
+    onRemoveClicked: (Long) -> () -> Unit,
+    onTaskDescriptionChanged: (taskId: Long, newDescription: String) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp)
+        ) {
+            TodoListTitle(
+                title = uiState.todoList.title,
+                onTodoListTitleChanged = { onTodoListTitleChanged(uiState.todoList.id, it) }
+            )
+            Divider()
+            val (unCompletedTasks, completedTasks) = uiState.todoList.tasks.partition {
+                !it.complete
+            }
+
+            var previousListSize by remember { mutableIntStateOf(0) }
+            var requestFocus by remember { mutableStateOf(false) }
+
+            LaunchedEffect(key1 = unCompletedTasks.size) {
+                if (unCompletedTasks.size > previousListSize) {
+                    requestFocus = true
+                }
+                previousListSize = unCompletedTasks.size
+            }
+            LazyColumn {
+                items(items = unCompletedTasks, key = { it.id }) {
+                    Task(
+                        task = it,
+                        onDescriptionChanged = onDescriptionChanged(it.id),
+                        onCompleteChanged = onCompleteChanged(it.id),
+                        onRemoveTaskClicked = onRemoveClicked(it.id),
+                        onFocusRequested = { requestFocus = false },
+                        onImeActionDone = { taskDescription ->
+                            onTaskDescriptionChanged(uiState.todoList.id, taskDescription)
+                        },
+                        requestFocus = requestFocus
+                    )
+                }
+
+                item {
+                    TaskToAdd(
+                        onValueChange = { taskDescription ->
+                            onTaskDescriptionChanged(uiState.todoList.id, taskDescription)
+                        }
+                    )
+                }
+                if (completedTasks.any() && unCompletedTasks.any()) {
+                    item { Divider() }
+                }
+                items(items = completedTasks, key = { it.id }) {
+                    Task(
+                        task = it,
+                        fieldsEnabled = false,
+                        onDescriptionChanged = onDescriptionChanged(it.id),
+                        onCompleteChanged = onCompleteChanged(it.id),
+                        onRemoveTaskClicked = onRemoveClicked(it.id)
+                    )
+                }
+
+            }
+        }
+
     }
 }
 
