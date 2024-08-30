@@ -153,7 +153,7 @@ fun TaskToAdd(
                     onValueChange("")
                 },
             text = "Add an item...",
-            style = MaterialTheme.typography.h3.copy(color = KashmirBlue,)
+            style = MaterialTheme.typography.h3.copy(color = KashmirBlue)
         )
     }
 }
