@@ -54,13 +54,11 @@ fun Task(
     requestFocus: Boolean = false,
     onFocusRequested: () -> Unit = {}
 ) {
-    var taskSelected by remember {
-        mutableStateOf(task.complete)
-    }
     val initialTextFieldValue = task.description
     var textState by remember { mutableStateOf(TextFieldValue(text = initialTextFieldValue)) }
-
+    var taskSelected by remember { mutableStateOf(task.complete) }
     val focusRequester = remember { FocusRequester() }
+
     LaunchedEffect(key1 = requestFocus) {
         if (requestFocus) {
             focusRequester.requestFocus()
@@ -155,7 +153,7 @@ fun TaskToAdd(
                     onValueChange("")
                 },
             text = "Add an item...",
-            style = MaterialTheme.typography.h3.copy(color = KashmirBlue)
+            style = MaterialTheme.typography.h3.copy(color = KashmirBlue,)
         )
     }
 }
