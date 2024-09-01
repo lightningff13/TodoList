@@ -11,8 +11,8 @@ A simple and intuitive todo list app built with Jetpack Compose.
 
 ## Screenshots
 
-![Screenshot of TodoList Home](screenshots/Screenshot_Todo_List_Home.png "Screenshot showing TodoList Home")
-![Screenshot of TodoList Detail](screenshots/Screenshot_Todo_List_Detail.png "Screenshot showing TodoList Detail")
+<img src="screenshots/Screenshot_Todo_List_Home.png" width="290"  alt="Screenshot of TodoList Home"/>
+<img src="screenshots/Screenshot_Todo_List_Detail.png" width="290"  alt="Screenshot of TodoList Detail"/>
 
 ## Technologies Used
 
