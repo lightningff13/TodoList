@@ -1,5 +1,5 @@
 [versions]
-gradle = "8.6.1"
+gradle = "8.7.0"
 hilt-android-gradle-plugin = "2.49"
 kotlin-gradle-plugin = "2.0.10"
 kotlin_version = "2.0.21"
@@ -15,7 +15,7 @@ truth = "1.1"
 core-ktx = "1.13.1"
 ksp = "2.0.10-1.0.24"
 detekt = "1.23.3"
-agp = "8.6.1"
+agp = "8.7.0"
 jetbrains-kotlin-jvm = "2.0.21"
 
 [libraries]
