@@ -1,11 +1,11 @@
 [versions]
-gradle = "8.5.2"
+gradle = "8.7.0"
 hilt-android-gradle-plugin = "2.49"
-kotlin-gradle-plugin = "1.7.20"
-kotlin_version = "2.0.0"
-androidx-compose = "1.7.0"
-lifecycle = "2.8.5"
-lifecycle-runtime-compose = "2.8.5"
+kotlin-gradle-plugin = "2.0.10"
+kotlin_version = "2.0.21"
+androidx-compose = "1.7.3"
+lifecycle = "2.8.6"
+lifecycle-runtime-compose = "2.8.6"
 material = "1.12.0"
 room = "2.6.1"
 mockk = "1.12.0"
@@ -15,10 +15,8 @@ truth = "1.1"
 core-ktx = "1.13.1"
 ksp = "2.0.10-1.0.24"
 detekt = "1.23.3"
-agp = "8.5.2"
-junit = "4.13.2"
-appcompat = "1.7.0"
-jetbrains-kotlin-jvm = "2.0.0"
+agp = "8.7.0"
+jetbrains-kotlin-jvm = "2.0.21"
 
 [libraries]
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -27,7 +25,8 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidx-compose" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidx-compose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidx-compose" }
-androidx-navigation = { module = "androidx.navigation:navigation-compose", version = "2.8.0" }
+androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidx-compose" }
+androidx-navigation = { module = "androidx.navigation:navigation-compose", version = "2.8.2" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidx-compose" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "androidx-compose" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -50,14 +49,11 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.8.2" }
 google-truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
-kotlinx-test-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 android-arch-core-test = { module = "android.arch.core:core-testing", version = "1.1.1" }
 junit = { module = "androidx.test.ext:junit", version = "1.2.1" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version = "3.6.1" }
 androidx-compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-compose" }
-junit-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin_version" }
@@ -69,11 +65,11 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrains-kotlin-jvm" }
 
 [bundles]
-compose = ["androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-material", "androidx-navigation"]
+compose = ["androidx-activity-compose", "androidx-compose-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-material", "androidx-navigation", "androidx-compose-material-icons"]
 compose-debug = ["androidx-compose-ui-tooling", "androidx-compose-ui-test-manifest"]
 coroutines = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
 lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-viewmodel-compose", "lifecycle-common-java8"]
 room = ["room-runtime", "room-ktx"]
 hilt = ["hilt-android", "hilt-navigation"]
-test = ["room-testing", "junit-jupiter", "google-truth", "mockk", "kotlinx-test-core", "kotlinx-test", "android-arch-core-test"]
-android-test = ["junit", "google-truth", "android-arch-core-test", "kotlinx-test-core", "espresso-core", "androidx-compose-ui-test-junit"]
+test = ["room-testing", "junit-jupiter", "google-truth", "mockk", "kotlinx-coroutines-core", "kotlinx-test", "android-arch-core-test"]
+android-test = ["junit", "google-truth", "android-arch-core-test", "kotlinx-coroutines-core", "espresso-core", "androidx-compose-ui-test-junit"]
