@@ -88,7 +88,6 @@ fun Task(
         )
         TextField(
             modifier = Modifier.weight(7.0F).focusRequester(focusRequester),
-            singleLine = true,
             value = textState,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done

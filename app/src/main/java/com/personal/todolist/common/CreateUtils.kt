@@ -23,7 +23,7 @@ fun createTodoList(
 
 fun createTask(
     id: Long = 1L,
-    description: String = "Description of the task",
+    description: String = "Description of a long the task which does not fit on a line",
     complete: Boolean = false
 ) = Task(
     id = id,
