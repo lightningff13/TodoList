@@ -1,9 +1,9 @@
 [versions]
-gradle = "8.7.0"
+gradle = "8.7.1"
 hilt-android-gradle-plugin = "2.49"
 kotlin-gradle-plugin = "2.0.10"
 kotlin_version = "2.0.21"
-androidx-compose = "1.7.3"
+androidx-compose = "1.7.4"
 lifecycle = "2.8.6"
 lifecycle-runtime-compose = "2.8.6"
 material = "1.12.0"
@@ -15,18 +15,18 @@ truth = "1.1"
 core-ktx = "1.13.1"
 ksp = "2.0.10-1.0.24"
 detekt = "1.23.3"
-agp = "8.7.0"
+agp = "8.7.1"
 jetbrains-kotlin-jvm = "2.0.21"
 
 [libraries]
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle-runtime-compose" }
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.9.2" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.9.3" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidx-compose" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidx-compose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidx-compose" }
 androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidx-compose" }
-androidx-navigation = { module = "androidx.navigation:navigation-compose", version = "2.8.2" }
+androidx-navigation = { module = "androidx.navigation:navigation-compose", version = "2.8.3" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidx-compose" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "androidx-compose" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
