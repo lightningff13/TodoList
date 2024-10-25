@@ -9,6 +9,10 @@ A simple and intuitive todo list app built with Jetpack Compose.
 * Mark tasks as complete.
 * Clean and modern user interface.
 
+## Next Features
+
+* Collaborative mode to edit todolist
+
 ## Screenshots
 
 <img src="screenshots/Screenshot_Todo_List_Home.png" width="290"  alt="Screenshot of TodoList Home"/>
